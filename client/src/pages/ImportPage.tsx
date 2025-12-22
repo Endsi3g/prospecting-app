@@ -10,12 +10,12 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
-import { Upload, FileSpreadsheet, CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
+import { Upload, FileSpreadsheet, CheckCircle, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 
 export function ImportPage() {
     const [file, setFile] = useState<File | null>(null);
-    const [preview, setPreview] = useState<any[]>([]);
+    const [preview, setPreview] = useState<Record<string, string>[]>([]);
     const [headers, setHeaders] = useState<string[]>([]);
     const [loading, setLoading] = useState(false);
     const [importing, setImporting] = useState(false);
@@ -56,7 +56,7 @@ export function ImportPage() {
                 setHeaders(Object.keys(data.data[0]));
                 setPreview(data.data.slice(0, 5));
             }
-        } catch (error) {
+        } catch {
             toast.error('Erreur lors de la prévisualisation');
         } finally {
             setLoading(false);
@@ -83,7 +83,7 @@ export function ImportPage() {
             } else {
                 toast.error(data.error || 'Erreur lors de l\'import');
             }
-        } catch (error) {
+        } catch {
             toast.error('Erreur lors de l\'import');
         } finally {
             setImporting(false);

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -55,7 +55,7 @@ export function TemplatesPage() {
         try {
             const result = await templatesApi.getAll();
             setTemplates(result.data || []);
-        } catch (error) {
+        } catch {
             toast.error('Erreur lors du chargement');
         } finally {
             setLoading(false);
@@ -98,7 +98,7 @@ export function TemplatesPage() {
                 toast.success('Template créé');
             }
             setDialogOpen(false);
-        } catch (error) {
+        } catch {
             toast.error('Erreur lors de la sauvegarde');
         } finally {
             setSaving(false);
@@ -111,7 +111,7 @@ export function TemplatesPage() {
             await templatesApi.delete(id);
             setTemplates(prev => prev.filter(t => t.id !== id));
             toast.success('Template supprimé');
-        } catch (error) {
+        } catch {
             toast.error('Erreur lors de la suppression');
         }
     }
@@ -125,7 +125,7 @@ export function TemplatesPage() {
             });
             setTemplates(prev => [result.data, ...prev]);
             toast.success('Template dupliqué');
-        } catch (error) {
+        } catch {
             toast.error('Erreur lors de la duplication');
         }
     }

@@ -36,7 +36,7 @@ export function ExportPage() {
 
             setExported(true);
             toast.success('Export téléchargé');
-        } catch (error) {
+        } catch {
             toast.error('Erreur lors de l\'export');
         } finally {
             setExporting(false);

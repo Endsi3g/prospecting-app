@@ -19,7 +19,8 @@ import { SearchPage } from '@/pages/SearchPage';
 import { SequencesPage } from '@/pages/SequencesPage';
 import { PipelinePage } from '@/pages/PipelinePage';
 import { AutomationsPage } from '@/pages/AutomationsPage';
-import { CommandPalette, useCommandPalette } from '@/components/CommandPalette';
+import { CommandPalette } from '@/components/CommandPalette';
+import { useCommandPalette } from '@/hooks/useCommandPalette';
 
 const queryClient = new QueryClient({
   defaultOptions: {

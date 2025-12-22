@@ -2,11 +2,11 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
-import { Slider } from '@/components/ui/slider';
+
 import { Sparkles, Users, Loader2, CheckCircle } from 'lucide-react';
 import { prospectsApi, messagesApi, templatesApi, type Prospect, type Template } from '@/api/client';
 import { toast } from 'sonner';
@@ -34,7 +34,7 @@ export function GeneratePage() {
                 ]);
                 setProspects(prospectsRes.data || []);
                 setTemplates(templatesRes.data || []);
-            } catch (error) {
+            } catch {
                 toast.error('Erreur lors du chargement des données');
             } finally {
                 setLoading(false);
@@ -80,7 +80,7 @@ export function GeneratePage() {
 
             setGeneratedCount(result.data?.length || 0);
             toast.success(`${result.data?.length || 0} messages générés`);
-        } catch (error) {
+        } catch {
             toast.error('Erreur lors de la génération');
         } finally {
             setGenerating(false);

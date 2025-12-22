@@ -253,6 +253,7 @@ export interface Prospect {
     duplicateReason?: string;
     pipelineStage?: string;
     pipelineUpdatedAt?: string;
+    aiInsights?: AIInsights;
 }
 
 export interface Message {

@@ -181,7 +181,7 @@ export function PipelinePage() {
             {/* Kanban Board */}
             <div className="flex-1 overflow-x-auto">
                 <div className="flex gap-4 h-full min-w-max pb-4">
-                    {stages.map((stage, index) => (
+                    {stages.map((stage) => (
                         <div
                             key={stage.id}
                             className="w-80 shrink-0 flex flex-col"
