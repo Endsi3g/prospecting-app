@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+
+<html class="light" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Détails du Prospect - Prospérité</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0b73da",
+                        "background-light": "#f5f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "0.75rem",
+                        "xl": "1rem",
+                        "full": "9999px"
+                    },
+                    boxShadow: {
+                        "apple": "0 4px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px -1px rgba(0, 0, 0, 0.02), 0 0 0 1px rgba(0, 0, 0, 0.05)",
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Custom scrollbar for a cleaner look */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-[#111418] dark:text-white font-display min-h-screen flex flex-col">
+<!-- Top Navigation -->
+<header class="sticky top-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#e5e7eb] dark:border-b-[#2a3441] bg-white/80 dark:bg-[#101922]/80 backdrop-blur-md px-6 py-3 transition-colors">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-4 text-[#111418] dark:text-white">
+<div class="size-6 text-primary">
+<span class="material-symbols-outlined !text-3xl">all_inclusive</span>
+</div>
+<h2 class="text-lg font-bold leading-tight tracking-[-0.015em]">Prospérité</h2>
+</div>
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-[#60758a] dark:text-[#94a3b8] hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors" href="#">Tableau de bord</a>
+<a class="text-primary text-sm font-medium bg-primary/10 px-3 py-1.5 rounded-full transition-colors" href="#">Prospects</a>
+<a class="text-[#60758a] dark:text-[#94a3b8] hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors" href="#">Campagnes</a>
+<a class="text-[#60758a] dark:text-[#94a3b8] hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors" href="#">Paramètres</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative hidden sm:flex">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 text-[#60758a] dark:text-[#94a3b8]">
+<span class="material-symbols-outlined text-[20px]">search</span>
+</span>
+<input class="h-9 w-64 rounded-lg bg-[#f0f2f5] dark:bg-[#1e2936] pl-10 pr-4 text-sm outline-none focus:ring-2 focus:ring-primary/20 transition-all placeholder:text-[#60758a]" placeholder="Rechercher..."/>
+</div>
+<div class="size-9 rounded-full bg-cover bg-center border border-[#e5e7eb] dark:border-[#2a3441]" data-alt="User profile photo" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBrNyJ2Oe0AW_CnVGORkfby0cM6i5Cc3I42j-BOL9it97e78wKJIVYQco1oWV9mPvuql_BA2hv3eAuoxFjxCCVNQipY89ycScsKk1Ccj8Ex9u6UoGBUzyNqPNOLfh957JmlpKbBSxgyrGQbdpbRAroMDESOLoPJ5zeH525ngoUFbnwMK19xz5TYs2Ns9QdScYOjk7DEm9bpi-w6f7nGUwiJsjhEbDgcjJAzzqlA69NJMN7U5I7y1pKXYyhGPOHj5zKLJsm8eTzEmQA');"></div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-1 w-full max-w-[1200px] mx-auto p-6 md:p-8">
+<!-- Breadcrumbs & Actions -->
+<div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+<div class="flex items-center gap-2 text-sm">
+<a class="text-[#60758a] dark:text-[#94a3b8] hover:text-primary transition-colors" href="#">Prospects</a>
+<span class="material-symbols-outlined text-[16px] text-[#9ca3af]">chevron_right</span>
+<span class="text-[#111418] dark:text-white font-medium">Détails du prospect</span>
+</div>
+<div class="flex gap-3">
+<button class="group flex items-center justify-center gap-2 h-9 px-4 rounded-lg border border-[#e5e7eb] dark:border-[#2a3441] bg-white dark:bg-[#1e2936] text-[#60758a] dark:text-[#94a3b8] text-sm font-medium hover:bg-[#f9fafb] dark:hover:bg-[#2d3748] hover:text-red-600 dark:hover:text-red-400 transition-all">
+<span class="material-symbols-outlined text-[18px]">delete</span>
+<span>Supprimer</span>
+</button>
+<button class="flex items-center justify-center gap-2 h-9 px-4 rounded-lg border border-[#e5e7eb] dark:border-[#2a3441] bg-white dark:bg-[#1e2936] text-[#111418] dark:text-white text-sm font-medium hover:bg-[#f9fafb] dark:hover:bg-[#2d3748] transition-all shadow-sm">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+<span>Modifier</span>
+</button>
+<button class="flex items-center justify-center gap-2 h-9 px-4 rounded-lg bg-primary text-white text-sm font-medium hover:bg-primary/90 transition-all shadow-sm shadow-primary/30">
+<span class="material-symbols-outlined text-[18px]">link</span>
+<span>Lier à une campagne</span>
+</button>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- Left Column: Prospect Identity Card -->
+<div class="lg:col-span-4 flex flex-col gap-6">
+<!-- Profile Card -->
+<div class="bg-white dark:bg-[#1e2936] rounded-xl shadow-apple border border-[#e5e7eb] dark:border-[#2a3441] p-6 overflow-hidden relative">
+<div class="absolute top-0 left-0 w-full h-24 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20"></div>
+<div class="relative flex flex-col items-center text-center mt-4">
+<div class="size-24 rounded-full border-4 border-white dark:border-[#1e2936] bg-gray-200 shadow-md mb-4 bg-cover bg-center" data-alt="Photo de profil du prospect" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAiCJwvZoUpdjAwv8OX3aluHYy2NR3y_fgjeuZbSMIXoFipeBAErVbC0pwwsZuJ2Bw7PsjWUx2tvzGo0Y2QZbzce_02_o_-VY4qBPlbJF4Fbra4supkiD_fSSOxOrzkUbkXO2HC2FFFkTNiz7dX_96kU382hT0Ls6GCBQm14llbW2vMetjoBRX09d4wQHx-v8drtHWyPXUTJ-qeluyOJjf7FBbRhOVSLg1oBT5xM7jITDTIYPu0QBWrwo_5jguZDifnaIsHh7Cf7lY');"></div>
+<h1 class="text-2xl font-bold text-[#111418] dark:text-white">Jean Dupont</h1>
+<p class="text-[#60758a] dark:text-[#94a3b8] font-medium mt-1">Directeur Marketing</p>
+<p class="text-sm text-primary mt-1">TechSolutions</p>
+<div class="flex gap-4 mt-6 w-full justify-center">
+<a class="size-10 rounded-full bg-[#f0f2f5] dark:bg-[#2a3441] flex items-center justify-center text-[#111418] dark:text-white hover:bg-primary hover:text-white transition-all duration-300" href="mailto:jean.dupont@techsolutions.com">
+<span class="material-symbols-outlined text-[20px]">mail</span>
+</a>
+<a class="size-10 rounded-full bg-[#f0f2f5] dark:bg-[#2a3441] flex items-center justify-center text-[#111418] dark:text-white hover:bg-primary hover:text-white transition-all duration-300" href="tel:+33612345678">
+<span class="material-symbols-outlined text-[20px]">call</span>
+</a>
+<a class="size-10 rounded-full bg-[#f0f2f5] dark:bg-[#2a3441] flex items-center justify-center text-[#111418] dark:text-white hover:bg-primary hover:text-white transition-all duration-300" href="#">
+<span class="material-symbols-outlined text-[20px]">language</span>
+</a>
+</div>
+</div>
+<div class="mt-8 border-t border-[#e5e7eb] dark:border-[#2a3441] pt-6 space-y-5">
+<div class="grid grid-cols-[auto_1fr] gap-x-4 gap-y-1 items-baseline">
+<span class="text-xs font-semibold uppercase tracking-wider text-[#9ca3af] col-span-2 mb-2">Coordonnées</span>
+<span class="text-sm text-[#60758a] dark:text-[#94a3b8]">Email</span>
+<span class="text-sm font-medium text-[#111418] dark:text-white truncate">jean.dupont@techsolutions.com</span>
+<span class="text-sm text-[#60758a] dark:text-[#94a3b8] mt-3">Tél</span>
+<span class="text-sm font-medium text-[#111418] dark:text-white mt-3">+33 6 12 34 56 78</span>
+<span class="text-sm text-[#60758a] dark:text-[#94a3b8] mt-3">Site</span>
+<span class="text-sm font-medium text-primary mt-3 cursor-pointer hover:underline">techsolutions.com</span>
+<span class="text-xs font-semibold uppercase tracking-wider text-[#9ca3af] col-span-2 mb-2 mt-6">Informations Pro</span>
+<span class="text-sm text-[#60758a] dark:text-[#94a3b8]">Entreprise</span>
+<span class="text-sm font-medium text-[#111418] dark:text-white">TechSolutions SAS</span>
+<span class="text-sm text-[#60758a] dark:text-[#94a3b8] mt-3">Poste</span>
+<span class="text-sm font-medium text-[#111418] dark:text-white mt-3">CMO / Directeur Mktg</span>
+</div>
+</div>
+</div>
+<!-- Tags Widget (Optional extra detail) -->
+<div class="bg-white dark:bg-[#1e2936] rounded-xl shadow-apple border border-[#e5e7eb] dark:border-[#2a3441] p-5">
+<h3 class="text-sm font-semibold text-[#111418] dark:text-white mb-3">Étiquettes</h3>
+<div class="flex flex-wrap gap-2">
+<span class="px-3 py-1 bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-300 text-xs font-medium rounded-full border border-green-200 dark:border-green-800">Chaud</span>
+<span class="px-3 py-1 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-xs font-medium rounded-full border border-blue-200 dark:border-blue-800">SaaS</span>
+<span class="px-3 py-1 bg-gray-50 dark:bg-gray-700 text-gray-600 dark:text-gray-300 text-xs font-medium rounded-full border border-gray-200 dark:border-gray-600">Decision Maker</span>
+</div>
+</div>
+</div>
+<!-- Right Column: Activity & Campaigns -->
+<div class="lg:col-span-8 flex flex-col gap-6">
+<!-- Stats Summary -->
+<div class="grid grid-cols-3 gap-4">
+<div class="bg-white dark:bg-[#1e2936] rounded-xl shadow-apple border border-[#e5e7eb] dark:border-[#2a3441] p-4 flex flex-col items-center justify-center text-center">
+<span class="text-2xl font-bold text-[#111418] dark:text-white">85%</span>
+<span class="text-xs text-[#60758a] dark:text-[#94a3b8] mt-1">Score d'intérêt</span>
+</div>
+<div class="bg-white dark:bg-[#1e2936] rounded-xl shadow-apple border border-[#e5e7eb] dark:border-[#2a3441] p-4 flex flex-col items-center justify-center text-center">
+<span class="text-2xl font-bold text-[#111418] dark:text-white">12</span>
+<span class="text-xs text-[#60758a] dark:text-[#94a3b8] mt-1">Interactions</span>
+</div>
+<div class="bg-white dark:bg-[#1e2936] rounded-xl shadow-apple border border-[#e5e7eb] dark:border-[#2a3441] p-4 flex flex-col items-center justify-center text-center">
+<span class="text-2xl font-bold text-[#111418] dark:text-white">2</span>
+<span class="text-xs text-[#60758a] dark:text-[#94a3b8] mt-1">Campagnes</span>
+</div>
+</div>
+<!-- Tabs Container -->
+<div class="bg-white dark:bg-[#1e2936] rounded-xl shadow-apple border border-[#e5e7eb] dark:border-[#2a3441] flex flex-col min-h-[500px]">
+<!-- Tabs Header -->
+<div class="flex border-b border-[#e5e7eb] dark:border-[#2a3441] px-6">
+<button class="relative flex items-center gap-2 py-4 px-2 mr-6 text-primary border-b-2 border-primary font-medium text-sm transition-colors">
+<span class="material-symbols-outlined text-[20px]">history</span>
+                            Historique
+                        </button>
+<button class="relative flex items-center gap-2 py-4 px-2 mr-6 text-[#60758a] dark:text-[#94a3b8] hover:text-[#111418] dark:hover:text-white font-medium text-sm transition-colors border-b-2 border-transparent hover:border-gray-300 dark:hover:border-gray-600">
+<span class="material-symbols-outlined text-[20px]">campaign</span>
+                            Campagnes
+                            <span class="ml-1 bg-[#f0f2f5] dark:bg-[#2a3441] text-[#60758a] dark:text-[#94a3b8] text-xs py-0.5 px-2 rounded-full">2</span>
+</button>
+<button class="relative flex items-center gap-2 py-4 px-2 text-[#60758a] dark:text-[#94a3b8] hover:text-[#111418] dark:hover:text-white font-medium text-sm transition-colors border-b-2 border-transparent hover:border-gray-300 dark:hover:border-gray-600">
+<span class="material-symbols-outlined text-[20px]">sticky_note_2</span>
+                            Notes
+                        </button>
+</div>
+<!-- Tab Content: History -->
+<div class="p-6">
+<!-- Timeline -->
+<div class="relative pl-4 border-l border-[#e5e7eb] dark:border-[#2a3441] ml-2 space-y-8">
+<!-- Item 1 -->
+<div class="relative pl-6">
+<div class="absolute -left-[25px] top-1 size-8 rounded-full bg-blue-100 dark:bg-blue-900 border-4 border-white dark:border-[#1e2936] flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[16px]">mail</span>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex items-center justify-between">
+<p class="text-sm font-semibold text-[#111418] dark:text-white">Email envoyé : "Proposition commerciale Q3"</p>
+<span class="text-xs text-[#9ca3af]">Aujourd'hui, 10:23</span>
+</div>
+<p class="text-sm text-[#60758a] dark:text-[#94a3b8] leading-relaxed">
+                                        La proposition a été envoyée avec succès. En attente d'ouverture.
+                                    </p>
+<div class="mt-2">
+<span class="inline-flex items-center gap-1 px-2 py-1 rounded-md bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 text-xs font-medium">
+<span class="size-1.5 rounded-full bg-green-500"></span> Délivré
+                                        </span>
+</div>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="relative pl-6">
+<div class="absolute -left-[25px] top-1 size-8 rounded-full bg-purple-100 dark:bg-purple-900 border-4 border-white dark:border-[#1e2936] flex items-center justify-center text-purple-600 dark:text-purple-400">
+<span class="material-symbols-outlined text-[16px]">phone_in_talk</span>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex items-center justify-between">
+<p class="text-sm font-semibold text-[#111418] dark:text-white">Appel sortant</p>
+<span class="text-xs text-[#9ca3af]">Hier, 14:45</span>
+</div>
+<p class="text-sm text-[#60758a] dark:text-[#94a3b8] leading-relaxed">
+                                        Discussion brève avec l'assistante. Rappel prévu mardi prochain pour joindre M. Dupont directement.
+                                    </p>
+<div class="mt-2 p-3 bg-[#f8fafc] dark:bg-[#2d3748] rounded-lg border border-[#e5e7eb] dark:border-[#4a5568]">
+<div class="flex items-center gap-2 mb-1">
+<span class="material-symbols-outlined text-[16px] text-[#64748b]">play_circle</span>
+<div class="h-1 flex-1 bg-gray-200 dark:bg-gray-600 rounded-full overflow-hidden">
+<div class="h-full w-1/3 bg-primary rounded-full"></div>
+</div>
+<span class="text-xs text-[#64748b]">01:24</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Item 3 -->
+<div class="relative pl-6">
+<div class="absolute -left-[25px] top-1 size-8 rounded-full bg-orange-100 dark:bg-orange-900 border-4 border-white dark:border-[#1e2936] flex items-center justify-center text-orange-600 dark:text-orange-400">
+<span class="material-symbols-outlined text-[16px]">campaign</span>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex items-center justify-between">
+<p class="text-sm font-semibold text-[#111418] dark:text-white">Ajouté à la campagne "Prospection Tech"</p>
+<span class="text-xs text-[#9ca3af]">12 Oct, 09:00</span>
+</div>
+<p class="text-sm text-[#60758a] dark:text-[#94a3b8]">
+                                        Importé depuis LinkedIn Sales Navigator.
+                                    </p>
+</div>
+</div>
+<!-- Item 4 -->
+<div class="relative pl-6">
+<div class="absolute -left-[25px] top-1 size-8 rounded-full bg-gray-100 dark:bg-gray-800 border-4 border-white dark:border-[#1e2936] flex items-center justify-center text-gray-500">
+<span class="material-symbols-outlined text-[16px]">person_add</span>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex items-center justify-between">
+<p class="text-sm font-semibold text-[#111418] dark:text-white">Prospect créé</p>
+<span class="text-xs text-[#9ca3af]">10 Oct, 11:30</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Load more -->
+<div class="mt-8 text-center">
+<button class="text-sm font-medium text-primary hover:text-primary/80 transition-colors">Voir tout l'historique</button>
+</div>
+</div>
+<!-- Hidden Campagnes Section Content (Example of structure if tab was active) -->
+<div class="hidden p-6">
+<div class="grid gap-4">
+<!-- Campaign Card -->
+<div class="flex items-center justify-between p-4 rounded-lg border border-[#e5e7eb] dark:border-[#2a3441] hover:border-primary/50 transition-colors bg-[#f9fafb] dark:bg-[#1e2936]">
+<div class="flex items-center gap-4">
+<div class="size-10 rounded-lg bg-blue-100 dark:bg-blue-900 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">rocket_launch</span>
+</div>
+<div>
+<h4 class="font-semibold text-sm text-[#111418] dark:text-white">Prospection Tech Q4</h4>
+<p class="text-xs text-[#60758a] dark:text-[#94a3b8]">Automatisée • Étape 2/5</p>
+</div>
+</div>
+<span class="px-2 py-1 bg-yellow-100 text-yellow-800 text-xs rounded font-medium">En cours</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

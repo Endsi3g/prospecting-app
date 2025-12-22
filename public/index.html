@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html class="light" lang="fr">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>ProspectApp - La prospection réinventée</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+    <!-- Tailwind Configuration -->
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0071E3",
+                        "primary-hover": "#005BB5",
+                        "background-light": "#f5f5f7",
+                        "background-dark": "#000000",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#1C1C1E",
+                        "text-main": "#1d1d1f",
+                        "text-secondary": "#86868b",
+                        "border-light": "#e5e7eb",
+                        "border-dark": "#2d3748",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "0.75rem",
+                        "xl": "1rem",
+                        "2xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                    boxShadow: {
+                        "soft": "0 4px 20px rgba(0, 0, 0, 0.05)",
+                        "soft-hover": "0 8px 30px rgba(0, 0, 0, 0.12)",
+                        "apple": "0 4px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px -1px rgba(0, 0, 0, 0.02)",
+                        "apple-hover": "0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.025)",
+                    }
+                },
+            },
+        }
+    </script>
+
+    <style>
+        /* ===================================
+           DESIGN SYSTEM - Shadcn-inspired
+           =================================== */
+
+        :root {
+            --animation-duration-fast: 150ms;
+            --animation-duration-normal: 300ms;
+            --animation-duration-slow: 500ms;
+            --animation-easing: cubic-bezier(0.16, 1, 0.3, 1);
+            --animation-easing-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ===================================
+           KEYFRAME ANIMATIONS
+           =================================== */
+
+        /* Fade In Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(16px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-16px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Scale & Bounce */
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes bounceIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.3);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+
+            70% {
+                transform: scale(0.9);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        /* Skeleton Loading */
+        @keyframes shimmer {
+            0% {
+                background-position: -200% 0;
+            }
+
+            100% {
+                background-position: 200% 0;
+            }
+        }
+
+        /* Spin */
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Ripple Effect */
+        @keyframes ripple {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+
+        /* Float */
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-6px);
+            }
+        }
+
+        /* Toast Animations */
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideOut {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+
+            to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+
+        /* ===================================
+           ANIMATION UTILITY CLASSES
+           =================================== */
+
+        .animate-fade-in {
+            animation: fadeIn var(--animation-duration-normal) var(--animation-easing) forwards;
+        }
+
+        .animate-fade-in-up {
+            animation: fadeInUp var(--animation-duration-normal) var(--animation-easing) forwards;
+        }
+
+        .animate-fade-in-down {
+            animation: fadeInDown var(--animation-duration-normal) var(--animation-easing) forwards;
+        }
+
+        .animate-fade-in-scale {
+            animation: fadeInScale var(--animation-duration-normal) var(--animation-easing) forwards;
+        }
+
+        .animate-slide-in-right {
+            animation: slideInRight var(--animation-duration-normal) var(--animation-easing) forwards;
+        }
+
+        .animate-slide-in-left {
+            animation: slideInLeft var(--animation-duration-normal) var(--animation-easing) forwards;
+        }
+
+        .animate-scale-in {
+            animation: scaleIn var(--animation-duration-normal) var(--animation-easing) forwards;
+        }
+
+        .animate-bounce-in {
+            animation: bounceIn 0.6s var(--animation-easing-bounce) forwards;
+        }
+
+        .animate-pulse {
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        /* ===================================
+           STAGGER ANIMATION DELAYS
+           =================================== */
+
+        .stagger-item {
+            opacity: 0;
+            animation: fadeInUp var(--animation-duration-normal) var(--animation-easing) forwards;
+        }
+
+        .stagger-item:nth-child(1) {
+            animation-delay: 0.03s;
+        }
+
+        .stagger-item:nth-child(2) {
+            animation-delay: 0.06s;
+        }
+
+        .stagger-item:nth-child(3) {
+            animation-delay: 0.09s;
+        }
+
+        .stagger-item:nth-child(4) {
+            animation-delay: 0.12s;
+        }
+
+        .stagger-item:nth-child(5) {
+            animation-delay: 0.15s;
+        }
+
+        .stagger-item:nth-child(6) {
+            animation-delay: 0.18s;
+        }
+
+        .stagger-item:nth-child(7) {
+            animation-delay: 0.21s;
+        }
+
+        .stagger-item:nth-child(8) {
+            animation-delay: 0.24s;
+        }
+
+        .stagger-item:nth-child(9) {
+            animation-delay: 0.27s;
+        }
+
+        .stagger-item:nth-child(10) {
+            animation-delay: 0.30s;
+        }
+
+        /* Grid stagger */
+        .stagger-grid>* {
+            opacity: 0;
+            animation: fadeInScale var(--animation-duration-normal) var(--animation-easing) forwards;
+        }
+
+        .stagger-grid>*:nth-child(1) {
+            animation-delay: 0.05s;
+        }
+
+        .stagger-grid>*:nth-child(2) {
+            animation-delay: 0.1s;
+        }
+
+        .stagger-grid>*:nth-child(3) {
+            animation-delay: 0.15s;
+        }
+
+        .stagger-grid>*:nth-child(4) {
+            animation-delay: 0.2s;
+        }
+
+        .stagger-grid>*:nth-child(5) {
+            animation-delay: 0.25s;
+        }
+
+        .stagger-grid>*:nth-child(6) {
+            animation-delay: 0.3s;
+        }
+
+        /* ===================================
+           SKELETON LOADER
+           =================================== */
+
+        .skeleton {
+            background: linear-gradient(90deg,
+                    #f0f0f0 25%,
+                    #e0e0e0 50%,
+                    #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s ease-in-out infinite;
+            border-radius: 8px;
+        }
+
+        .skeleton-text {
+            height: 1rem;
+            margin-bottom: 0.5rem;
+            border-radius: 4px;
+        }
+
+        .skeleton-text.short {
+            width: 40%;
+        }
+
+        .skeleton-text.medium {
+            width: 70%;
+        }
+
+        .skeleton-text.full {
+            width: 100%;
+        }
+
+        .skeleton-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+
+        .skeleton-card {
+            height: 120px;
+            border-radius: 16px;
+        }
+
+        /* ===================================
+           MICRO-INTERACTIONS
+           =================================== */
+
+        /* Button Ripple Effect */
+        .btn-ripple {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-ripple::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            background-image: radial-gradient(circle, rgba(255, 255, 255, 0.3) 10%, transparent 10%);
+            background-repeat: no-repeat;
+            background-position: 50%;
+            transform: scale(10);
+            opacity: 0;
+            transition: transform 0.5s, opacity 0.5s;
+        }
+
+        .btn-ripple:active::after {
+            transform: scale(0);
+            opacity: 1;
+            transition: 0s;
+        }
+
+        /* Card Hover Effects */
+        .card-hover {
+            transition: transform var(--animation-duration-fast) var(--animation-easing),
+                box-shadow var(--animation-duration-fast) var(--animation-easing),
+                border-color var(--animation-duration-fast) var(--animation-easing);
+        }
+
+        .card-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 24px -8px rgba(0, 0, 0, 0.08);
+        }
+
+        /* Icon Hover Scale */
+        .icon-hover {
+            transition: transform var(--animation-duration-fast) var(--animation-easing);
+        }
+
+        .icon-hover:hover {
+            transform: scale(1.1);
+        }
+
+        /* Link Underline Animation */
+        .link-animate {
+            position: relative;
+        }
+
+        .link-animate::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: currentColor;
+            transition: width var(--animation-duration-normal) var(--animation-easing);
+        }
+
+        .link-animate:hover::after {
+            width: 100%;
+        }
+
+        /* Input Focus Animation */
+        .input-animate {
+            transition: border-color var(--animation-duration-fast) ease,
+                box-shadow var(--animation-duration-fast) ease,
+                background-color var(--animation-duration-fast) ease;
+        }
+
+        .input-animate:focus {
+            border-color: #0071E3;
+            box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.1);
+            background-color: #fff;
+        }
+
+        /* Button Scale on Press */
+        .btn-press {
+            transition: transform var(--animation-duration-fast) var(--animation-easing),
+                box-shadow var(--animation-duration-fast) var(--animation-easing);
+        }
+
+        .btn-press:hover {
+            transform: translateY(-1px);
+        }
+
+        .btn-press:active {
+            transform: translateY(1px) scale(0.98);
+        }
+
+        /* ===================================
+           PAGE TRANSITIONS
+           =================================== */
+
+        .page-content {
+            opacity: 0;
+            animation: fadeInUp 0.4s var(--animation-easing) forwards;
+        }
+
+        .page-exit {
+            animation: fadeOut 0.2s ease forwards;
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            to {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+        }
+
+        /* ===================================
+           GLASSMORPHISM PANELS
+           =================================== */
+
+        .apple-blur {
+            -webkit-backdrop-filter: saturate(180%) blur(20px);
+            backdrop-filter: saturate(180%) blur(20px);
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+
+        .dark .apple-blur {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
+        .glass-panel {
+            -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(20px);
+        }
+
+        /* ===================================
+           CUSTOM SCROLLBAR
+           =================================== */
+
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: #d1d5db;
+            border-radius: 20px;
+            transition: background-color 0.2s;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background-color: #9ca3af;
+        }
+
+        /* ===================================
+           LOADING SPINNER
+           =================================== */
+
+        .spinner {
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #0071E3;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 0.8s linear infinite;
+        }
+
+        .spinner-lg {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #0071E3;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 0.8s linear infinite;
+        }
+
+        /* ===================================
+           DRAG AND DROP
+           =================================== */
+
+        .drop-zone {
+            transition: border-color var(--animation-duration-fast) ease,
+                background-color var(--animation-duration-fast) ease,
+                transform var(--animation-duration-fast) ease;
+        }
+
+        .drop-zone.drag-over {
+            border-color: #0071E3;
+            background-color: rgba(0, 113, 227, 0.05);
+            transform: scale(1.01);
+        }
+
+        /* ===================================
+           TOAST NOTIFICATIONS
+           =================================== */
+
+        .toast {
+            animation: slideIn 0.4s var(--animation-easing) forwards;
+        }
+
+        .toast-exit {
+            animation: slideOut 0.3s var(--animation-easing) forwards;
+        }
+
+        /* ===================================
+           TABLE ROW ANIMATIONS
+           =================================== */
+
+        .table-row-animate {
+            transition: background-color var(--animation-duration-fast) ease;
+        }
+
+        .table-row-animate:hover {
+            background-color: rgba(0, 113, 227, 0.03);
+        }
+
+        .table-row-enter {
+            animation: fadeInUp 0.3s var(--animation-easing) forwards;
+        }
+
+        .table-row-exit {
+            animation: fadeOut 0.2s ease forwards;
+        }
+
+        /* ===================================
+           BADGE ANIMATIONS
+           =================================== */
+
+        .badge-pulse {
+            position: relative;
+        }
+
+        .badge-pulse::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            background: inherit;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        /* ===================================
+           PROGRESS BAR
+           =================================== */
+
+        .progress-bar {
+            overflow: hidden;
+            background: #e5e7eb;
+            border-radius: 9999px;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #0071E3, #00b4d8);
+            border-radius: 9999px;
+            transition: width 0.5s var(--animation-easing);
+        }
+
+        .progress-bar-animated .progress-bar-fill {
+            background-size: 200% 100%;
+            animation: shimmer 1.5s ease-in-out infinite;
+        }
+
+        /* ===================================
+           CHECKBOX/TOGGLE ANIMATIONS
+           =================================== */
+
+        .checkbox-animate {
+            transition: background-color var(--animation-duration-fast) ease,
+                border-color var(--animation-duration-fast) ease,
+                transform var(--animation-duration-fast) ease;
+        }
+
+        .checkbox-animate:checked {
+            animation: bounceIn 0.3s var(--animation-easing-bounce);
+        }
+
+        /* ===================================
+           MODAL ANIMATIONS
+           =================================== */
+
+        .modal-overlay {
+            opacity: 0;
+            transition: opacity var(--animation-duration-normal) ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+        }
+
+        .modal-content {
+            opacity: 0;
+            transform: scale(0.95) translateY(10px);
+            transition: opacity var(--animation-duration-normal) var(--animation-easing),
+                transform var(--animation-duration-normal) var(--animation-easing);
+        }
+
+        .modal-content.active {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+        }
+
+        /* ===================================
+           NAV LINK ACTIVE INDICATOR
+           =================================== */
+
+        .nav-link {
+            position: relative;
+            transition: background-color var(--animation-duration-fast) ease,
+                color var(--animation-duration-fast) ease;
+        }
+
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%) scaleY(0);
+            width: 3px;
+            height: 60%;
+            background: #0071E3;
+            border-radius: 0 3px 3px 0;
+            transition: transform var(--animation-duration-fast) var(--animation-easing);
+        }
+
+        .nav-link.active::before,
+        .nav-link.bg-primary\/10::before {
+            transform: translateY(-50%) scaleY(1);
+        }
+
+        /* ===================================
+           REDUCED MOTION SUPPORT
+           =================================== */
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* ===================================
+           MOBILE RESPONSIVE STYLES
+           =================================== */
+
+        /* Mobile Sidebar */
+        #sidebar.mobile-open {
+            display: flex !important;
+            position: fixed !important;
+            z-index: 100;
+            left: 0;
+            top: 0;
+            height: 100vh;
+            width: 280px;
+            animation: slideInLeft 0.3s var(--animation-easing);
+        }
+
+        #mobile-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 99;
+            -webkit-backdrop-filter: blur(4px);
+            backdrop-filter: blur(4px);
+        }
+
+        #mobile-overlay.active {
+            display: block;
+            animation: fadeIn 0.2s ease;
+        }
+
+        /* Mobile-specific tweaks */
+        @media (max-width: 768px) {
+            .hide-mobile {
+                display: none !important;
+            }
+
+            /* Better touch targets */
+            button,
+            a,
+            .nav-link {
+                min-height: 44px;
+            }
+
+            /* Compact stats cards on mobile */
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr) !important;
+            }
+
+            /* Full-width cards on mobile */
+            .card-grid {
+                grid-template-columns: 1fr !important;
+            }
+
+            /* Smaller padding on mobile */
+            .mobile-compact {
+                padding-left: 1rem !important;
+                padding-right: 1rem !important;
+            }
+
+            /* Better table scrolling on mobile */
+            .table-responsive {
+                overflow-x: auto;
+            }
+
+            /* Compact headers on mobile */
+            .text-3xl {
+                font-size: 1.5rem !important;
+            }
+
+            /* Bottom nav padding for fixed elements */
+            .mobile-bottom-padding {
+                padding-bottom: 80px;
+            }
+        }
+
+        /* Touch-friendly improvements */
+        @media (hover: none) and (pointer: coarse) {
+            .card-hover:hover {
+                transform: none;
+                box-shadow: none;
+            }
+
+            .btn-press:active {
+                transform: scale(0.98);
+            }
+
+            /* Show action buttons always on touch devices */
+            .group .opacity-0 {
+                opacity: 1 !important;
+            }
+        }
+
+        /* Safe area for notch devices */
+        @supports (padding: max(0px)) {
+            #sidebar {
+                padding-top: max(1rem, env(safe-area-inset-top));
+                padding-bottom: max(1rem, env(safe-area-inset-bottom));
+            }
+
+            header {
+                padding-top: max(0.75rem, env(safe-area-inset-top));
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-background-light text-text-main font-display antialiased min-h-screen">
+    <div id="app" class="flex min-h-screen">
+
+        <!-- Mobile Overlay -->
+        <div id="mobile-overlay"></div>
+
+        <!-- Sidebar Navigation -->
+        <aside id="sidebar"
+            class="hidden md:flex flex-col w-64 lg:w-72 bg-surface-light border-r border-border-light h-screen sticky top-0 overflow-y-auto">
+            <!-- Logo -->
+            <div class="p-6 border-b border-gray-100">
+                <div class="flex items-center gap-3">
+                    <div
+                        class="w-9 h-9 rounded-xl bg-primary flex items-center justify-center text-white shadow-md shadow-primary/20">
+                        <span class="material-symbols-outlined text-[20px]">rocket_launch</span>
+                    </div>
+                    <span class="font-bold text-lg tracking-tight text-text-main">ProspectApp</span>
+                </div>
+            </div>
+
+            <!-- Navigation -->
+            <nav class="flex-1 p-4 space-y-1">
+                <p class="px-3 text-xs font-semibold text-text-secondary uppercase tracking-wider mb-3">Principal</p>
+
+                <a href="#/" data-nav
+                    class="nav-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-text-secondary hover:bg-gray-50 hover:text-text-main transition-all">
+                    <span class="material-symbols-outlined text-[20px]">dashboard</span>
+                    <span class="text-sm font-medium">Tableau de bord</span>
+                </a>
+
+                <a href="#/prospects" data-nav
+                    class="nav-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-text-secondary hover:bg-gray-50 hover:text-text-main transition-all">
+                    <span class="material-symbols-outlined text-[20px]">people</span>
+                    <span class="text-sm font-medium">Prospects</span>
+                </a>
+
+                <a href="#/import" data-nav
+                    class="nav-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-text-secondary hover:bg-gray-50 hover:text-text-main transition-all">
+                    <span class="material-symbols-outlined text-[20px]">upload_file</span>
+                    <span class="text-sm font-medium">Importer</span>
+                </a>
+
+                <a href="#/generate" data-nav
+                    class="nav-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-text-secondary hover:bg-gray-50 hover:text-text-main transition-all">
+                    <span class="material-symbols-outlined text-[20px]">auto_awesome</span>
+                    <span class="text-sm font-medium">Générer messages</span>
+                </a>
+
+                <a href="#/messages" data-nav
+                    class="nav-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-text-secondary hover:bg-gray-50 hover:text-text-main transition-all">
+                    <span class="material-symbols-outlined text-[20px]">mail</span>
+                    <span class="text-sm font-medium">Messages</span>
+                </a>
+
+                <a href="#/export" data-nav
+                    class="nav-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-text-secondary hover:bg-gray-50 hover:text-text-main transition-all">
+                    <span class="material-symbols-outlined text-[20px]">file_download</span>
+                    <span class="text-sm font-medium">Exporter</span>
+                </a>
+
+                <p class="px-3 text-xs font-semibold text-text-secondary uppercase tracking-wider mb-3 mt-6">Campagnes
+                </p>
+
+                <a href="#/campaigns" data-nav
+                    class="nav-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-text-secondary hover:bg-gray-50 hover:text-text-main transition-all">
+                    <span class="material-symbols-outlined text-[20px]">campaign</span>
+                    <span class="text-sm font-medium">Campagnes</span>
+                </a>
+
+                <a href="#/templates" data-nav
+                    class="nav-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-text-secondary hover:bg-gray-50 hover:text-text-main transition-all">
+                    <span class="material-symbols-outlined text-[20px]">description</span>
+                    <span class="text-sm font-medium">Templates</span>
+                </a>
+
+                <a href="#/analyze" data-nav
+                    class="nav-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-text-secondary hover:bg-gray-50 hover:text-text-main transition-all">
+                    <span class="material-symbols-outlined text-[20px]">analytics</span>
+                    <span class="text-sm font-medium">Analyser</span>
+                </a>
+            </nav>
+
+            <!-- Bottom section -->
+            <div class="p-4 border-t border-gray-100">
+                <a href="#/settings" data-nav
+                    class="nav-link flex items-center gap-3 px-3 py-2.5 rounded-xl text-text-secondary hover:bg-gray-50 hover:text-text-main transition-all">
+                    <span class="material-symbols-outlined text-[20px]">settings</span>
+                    <span class="text-sm font-medium">Paramètres</span>
+                </a>
+
+                <!-- LLM Status -->
+                <div id="llm-status" class="mt-4 px-3 py-2 rounded-lg bg-gray-50 border border-gray-100">
+                    <div class="flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-full bg-gray-300" id="llm-indicator"></span>
+                        <span class="text-xs text-text-secondary" id="llm-status-text">LLM: Vérification...</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 flex flex-col min-h-screen">
+            <!-- Top Header -->
+            <header class="sticky top-0 z-40 bg-surface-light/80 glass-panel border-b border-gray-100 px-6 py-3">
+                <div class="flex items-center justify-between">
+                    <!-- Mobile menu button -->
+                    <button id="mobile-menu-btn" class="md:hidden p-2 -ml-2 text-text-secondary hover:text-text-main">
+                        <span class="material-symbols-outlined">menu</span>
+                    </button>
+
+                    <!-- Global Search -->
+                    <div id="global-search-container" class="relative hidden md:block w-80">
+                        <div
+                            class="flex items-center bg-gray-50 rounded-lg px-3 py-2 border border-transparent focus-within:border-primary/30 focus-within:bg-white transition-all">
+                            <span class="material-symbols-outlined text-gray-400 text-[20px]">search</span>
+                            <input
+                                class="bg-transparent border-none outline-none text-sm ml-2 w-full placeholder-gray-400"
+                                placeholder="Rechercher..." type="text" id="global-search-input" />
+                            <kbd
+                                class="hidden lg:inline-flex items-center px-2 py-0.5 text-[10px] font-medium text-gray-400 bg-gray-100 rounded">Ctrl+K</kbd>
+                        </div>
+                        <!-- Search Results Dropdown -->
+                        <div id="search-results-dropdown"
+                            class="hidden absolute top-full left-0 right-0 mt-2 bg-white rounded-xl shadow-lg border border-gray-200 max-h-96 overflow-y-auto z-50">
+                        </div>
+                    </div>
+
+                    <!-- Right side -->
+                    <div class="flex items-center gap-3">
+                        <!-- Duplicate Detection Button -->
+                        <button onclick="showDuplicatesModal()" title="Détecter les doublons"
+                            class="p-2 text-text-secondary hover:text-text-main hover:bg-gray-50 rounded-lg transition-colors">
+                            <span class="material-symbols-outlined text-[22px]">content_copy</span>
+                        </button>
+
+                        <!-- Notification Bell -->
+                        <div class="relative" id="notification-container">
+                            <button id="notification-btn" onclick="toggleNotifications()"
+                                class="p-2 text-text-secondary hover:text-text-main hover:bg-gray-50 rounded-lg transition-colors relative">
+                                <span class="material-symbols-outlined text-[22px]">notifications</span>
+                                <span id="notification-badge"
+                                    class="hidden absolute -top-0.5 -right-0.5 min-w-5 h-5 px-1 bg-red-500 text-white rounded-full text-[10px] font-bold flex items-center justify-center border-2 border-white">0</span>
+                            </button>
+
+                            <!-- Notification Dropdown -->
+                            <div id="notification-dropdown"
+                                class="hidden absolute right-0 top-full mt-2 w-80 bg-white rounded-xl shadow-lg border border-gray-200 z-50">
+                                <div class="px-4 py-3 border-b border-gray-100 flex items-center justify-between">
+                                    <h4 class="font-semibold text-text-main">Notifications</h4>
+                                    <button onclick="markAllNotificationsReadUI()"
+                                        class="text-xs text-primary hover:underline">Tout marquer lu</button>
+                                </div>
+                                <div id="notification-list" class="max-h-80 overflow-y-auto">
+                                    <div class="p-6 text-center">
+                                        <span
+                                            class="material-symbols-outlined text-gray-300 text-4xl">notifications_off</span>
+                                        <p class="text-sm text-gray-500 mt-2">Aucune notification</p>
+                                    </div>
+                                </div>
+                                <div class="px-4 py-3 border-t border-gray-100 text-center">
+                                    <button onclick="clearAllNotificationsUI()"
+                                        class="text-xs text-gray-500 hover:text-red-500">Effacer tout</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div
+                            class="w-9 h-9 rounded-full bg-gradient-to-br from-primary to-blue-400 flex items-center justify-center text-white font-medium text-sm shadow-sm cursor-pointer">
+                            U
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Page Content -->
+            <div id="page-content" class="flex-1 p-6 lg:p-8 bg-background-light">
+                <!-- Dynamic content will be injected here -->
+            </div>
+        </main>
+    </div>
+
+    <!-- Toast Container -->
+    <div id="toast-container" class="fixed bottom-4 right-4 z-50 flex flex-col gap-2"></div>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay"
+        class="fixed inset-0 bg-white/80 backdrop-blur-sm z-50 flex items-center justify-center hidden">
+        <div class="flex flex-col items-center gap-3">
+            <div class="spinner border-t-primary"></div>
+            <span class="text-sm text-text-secondary">Chargement...</span>
+        </div>
+    </div>
+
+    <!-- Main Application Script -->
+    <script src="/js/app.js"></script>
+</body>
+
+</html>

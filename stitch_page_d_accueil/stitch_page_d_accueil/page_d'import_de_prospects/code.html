@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Importation de prospects - ProspApp</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0071E3",
+                        "primary-hover": "#005BB5",
+                        "background-light": "#F5F5F7",
+                        "background-dark": "#000000",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#1C1C1E",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.5rem", "lg": "0.75rem", "xl": "1rem", "2xl": "1.5rem", "full": "9999px"},
+                    boxShadow: {
+                        'apple': '0 4px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px -1px rgba(0, 0, 0, 0.02)',
+                        'apple-hover': '0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.025)',
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-50 font-display antialiased selection:bg-primary/20 selection:text-primary transition-colors duration-300">
+<nav class="sticky top-0 z-50 w-full bg-surface-light/80 dark:bg-surface-dark/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800">
+<div class="px-6 md:px-10 py-3 flex items-center justify-between max-w-[1440px] mx-auto">
+<div class="flex items-center gap-4 text-slate-900 dark:text-white">
+<div class="size-8 text-primary bg-primary/10 rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]">bolt</span>
+</div>
+<h2 class="text-lg font-bold leading-tight tracking-tight">ProspApp</h2>
+</div>
+<div class="flex items-center gap-6">
+<div class="hidden md:flex items-center bg-slate-100 dark:bg-slate-800/50 rounded-lg px-3 py-2 w-64 border border-transparent focus-within:border-primary/50 transition-all">
+<span class="material-symbols-outlined text-slate-400 text-[20px]">search</span>
+<input class="bg-transparent border-none outline-none text-sm ml-2 w-full text-slate-700 dark:text-slate-200 placeholder-slate-400" placeholder="Rechercher..." type="text"/>
+</div>
+<div class="flex items-center gap-4">
+<button class="relative p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors text-slate-500 dark:text-slate-400">
+<span class="material-symbols-outlined text-[24px]">notifications</span>
+<span class="absolute top-2 right-2 size-2 bg-red-500 rounded-full border-2 border-surface-light dark:border-surface-dark"></span>
+</button>
+<div class="size-9 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden ring-2 ring-white dark:ring-slate-600 shadow-sm" data-alt="User profile picture showing a smiling professional" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAVBlJSQ1_8nDZO8LEhkS3_Z49VhBSmw2dW-Sm4j2gI7Z64H-qCY10WrJasTFYwQ5Hy1J2Ob3d1WpPzK9dEPJDfJrkTxbiCWvZCEzz7sbDZA_Un84LoBdaNCl1bufBgYEDJPrqZgdbd8BCN7-1fdr9ICVtTS0ytYsPJH0dUpZREm-W0TZlo6ZGDcFeJtwpyH4bGE3MqTl0_YwF-INqgTBG7kP8CxzBLEXvqs5yyLxoGAbZ1EvGRGuisgEtcwB36Dgq_VtWkCx3QGRc'); background-size: cover;"></div>
+</div>
+</div>
+</div>
+</nav>
+<main class="flex flex-col items-center w-full min-h-[calc(100vh-64px)] pb-20">
+<div class="w-full max-w-[1100px] px-6 py-8 flex flex-col gap-8">
+<header class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div class="flex flex-col gap-2">
+<h1 class="text-3xl md:text-4xl font-bold tracking-tight text-slate-900 dark:text-white">Importation de prospects</h1>
+<p class="text-slate-500 dark:text-slate-400 text-base max-w-lg leading-relaxed">
+                    Ajoutez de nouveaux contacts à votre base de données via un fichier CSV ou recherchez des profils en ligne.
+                </p>
+</div>
+<button class="group flex items-center gap-2 px-5 py-2.5 bg-white dark:bg-surface-dark text-slate-700 dark:text-slate-200 font-medium text-sm rounded-xl border border-slate-200 dark:border-slate-700 shadow-apple hover:shadow-apple-hover hover:border-primary/30 transition-all">
+<span class="material-symbols-outlined text-[20px] text-primary group-hover:scale-110 transition-transform">globe</span>
+<span>Rechercher en ligne</span>
+</button>
+</header>
+<section class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+<div class="lg:col-span-2 flex flex-col">
+<div class="relative group cursor-pointer flex flex-col items-center justify-center gap-4 rounded-2xl border-2 border-dashed border-slate-300 dark:border-slate-700 hover:border-primary/50 hover:bg-slate-50 dark:hover:bg-slate-800/30 bg-surface-light dark:bg-surface-dark px-8 py-12 transition-all duration-300">
+<div class="size-16 rounded-full bg-primary/5 dark:bg-primary/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+<span class="material-symbols-outlined text-[32px] text-primary">cloud_upload</span>
+</div>
+<div class="text-center space-y-1">
+<p class="text-lg font-semibold text-slate-900 dark:text-white">Glissez votre fichier CSV ici</p>
+<p class="text-sm text-slate-500 dark:text-slate-400">ou <span class="text-primary font-medium hover:underline">cliquez pour parcourir</span></p>
+</div>
+<p class="text-xs text-slate-400 dark:text-slate-500 mt-2">Format supporté : .csv (Max 5MB)</p>
+</div>
+<div class="mt-4 bg-surface-light dark:bg-surface-dark rounded-xl p-4 border border-slate-200 dark:border-slate-700 shadow-apple flex items-center gap-4 animate-in fade-in slide-in-from-top-2 duration-500">
+<div class="size-10 rounded-lg bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined">description</span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-center mb-1">
+<p class="text-sm font-medium text-slate-900 dark:text-white truncate">prospects_janvier_2024.csv</p>
+<span class="text-xs font-semibold text-green-600 dark:text-green-400 flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">check_circle</span> 100%
+                            </span>
+</div>
+<div class="h-1.5 w-full bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden">
+<div class="h-full bg-green-500 w-full rounded-full"></div>
+</div>
+</div>
+<button class="p-2 text-slate-400 hover:text-red-500 transition-colors">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+</div>
+</div>
+<div class="lg:col-span-1">
+<div class="h-full bg-surface-light dark:bg-surface-dark rounded-2xl p-6 border border-slate-200 dark:border-slate-700 flex flex-col justify-between shadow-apple relative overflow-hidden">
+<div class="absolute top-0 left-0 w-full h-1 bg-primary"></div>
+<div>
+<div class="flex items-center gap-2 mb-4 text-primary">
+<span class="material-symbols-outlined">info</span>
+<h3 class="font-bold text-slate-900 dark:text-white">Instructions</h3>
+</div>
+<ul class="space-y-3 text-sm text-slate-600 dark:text-slate-300">
+<li class="flex gap-2">
+<span class="material-symbols-outlined text-[16px] mt-0.5 text-primary">check_circle</span>
+                                Fichier CSV encodé en UTF-8
+                            </li>
+<li class="flex gap-2">
+<span class="material-symbols-outlined text-[16px] mt-0.5 text-primary">check_circle</span>
+                                7 colonnes requises (voir aperçu)
+                            </li>
+<li class="flex gap-2">
+<span class="material-symbols-outlined text-[16px] mt-0.5 text-primary">check_circle</span>
+                                Première ligne contient les entêtes
+                            </li>
+</ul>
+</div>
+<button class="mt-6 text-sm font-semibold text-primary hover:text-primary-hover flex items-center gap-1 group">
+                        Télécharger un modèle
+                        <span class="material-symbols-outlined text-[16px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+</div>
+</div>
+</section>
+<section class="flex flex-col gap-4">
+<div class="flex items-center justify-between px-1">
+<h3 class="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                    Aperçu des données
+                    <span class="px-2.5 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-xs font-semibold border border-slate-200 dark:border-slate-700">35 détectés</span>
+</h3>
+<div class="flex items-center gap-2">
+<button class="p-2 rounded-lg text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+<span class="material-symbols-outlined text-[20px]">filter_list</span>
+</button>
+<button class="p-2 rounded-lg text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+<span class="material-symbols-outlined text-[20px]">view_column</span>
+</button>
+</div>
+</div>
+<div class="bg-surface-light dark:bg-surface-dark rounded-2xl border border-slate-200 dark:border-slate-700 shadow-apple overflow-hidden">
+<div class="overflow-x-auto">
+<table class="w-full text-left text-sm whitespace-nowrap">
+<thead class="bg-slate-50 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-700">
+<tr>
+<th class="px-6 py-4 font-semibold text-slate-700 dark:text-slate-200">
+<div class="flex items-center gap-1 cursor-pointer hover:text-primary transition-colors">
+                                    Nom
+                                    <span class="material-symbols-outlined text-[14px] opacity-50">unfold_more</span>
+</div>
+</th>
+<th class="px-6 py-4 font-semibold text-slate-700 dark:text-slate-200">Prénom</th>
+<th class="px-6 py-4 font-semibold text-slate-700 dark:text-slate-200">Email</th>
+<th class="px-6 py-4 font-semibold text-slate-700 dark:text-slate-200">Entreprise</th>
+<th class="px-6 py-4 font-semibold text-slate-700 dark:text-slate-200">Poste</th>
+<th class="px-6 py-4 font-semibold text-slate-700 dark:text-slate-200">Téléphone</th>
+<th class="px-6 py-4 font-semibold text-slate-700 dark:text-slate-200">Site web</th>
+<th class="px-4 py-4 w-10"></th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100 dark:divide-slate-700/50">
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors group">
+<td class="px-6 py-4 font-medium text-slate-900 dark:text-white">Dubois</td>
+<td class="px-6 py-4 text-slate-600 dark:text-slate-300">Marie</td>
+<td class="px-6 py-4 text-slate-600 dark:text-slate-300">m.dubois@techflow.io</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 px-2 py-1 rounded-md bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-xs font-medium">
+<span class="size-1.5 rounded-full bg-blue-500"></span> TechFlow
+                                </span>
+</td>
+<td class="px-6 py-4 text-slate-600 dark:text-slate-300">CTO</td>
+<td class="px-6 py-4 text-slate-500 font-mono text-xs">06 12 34 56 78</td>
+<td class="px-6 py-4 text-primary hover:underline cursor-pointer">techflow.io</td>
+<td class="px-4 py-4 text-right">
+<button class="opacity-0 group-hover:opacity-100 p-1.5 rounded-md hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-500 transition-all">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors group">
+<td class="px-6 py-4 font-medium text-slate-900 dark:text-white">Martin</td>
+<td class="px-6 py-4 text-slate-600 dark:text-slate-300">Thomas</td>
+<td class="px-6 py-4 text-slate-600 dark:text-slate-300">thomas@greenstart.fr</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 px-2 py-1 rounded-md bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 text-xs font-medium">
+<span class="size-1.5 rounded-full bg-emerald-500"></span> GreenStart
+                                </span>
+</td>
+<td class="px-6 py-4 text-slate-600 dark:text-slate-300">CEO</td>
+<td class="px-6 py-4 text-slate-500 font-mono text-xs">07 89 10 11 12</td>
+<td class="px-6 py-4 text-primary hover:underline cursor-pointer">greenstart.fr</td>
+<td class="px-4 py-4 text-right">
+<button class="opacity-0 group-hover:opacity-100 p-1.5 rounded-md hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-500 transition-all">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors group">
+<td class="px-6 py-4 font-medium text-slate-900 dark:text-white">Bernard</td>
+<td class="px-6 py-4 text-slate-600 dark:text-slate-300">Sophie</td>
+<td class="px-6 py-4 text-slate-600 dark:text-slate-300">s.bernard@innov.co</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 px-2 py-1 rounded-md bg-purple-50 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 text-xs font-medium">
+<span class="size-1.5 rounded-full bg-purple-500"></span> InnovCo
+                                </span>
+</td>
+<td class="px-6 py-4 text-slate-600 dark:text-slate-300">Marketing Lead</td>
+<td class="px-6 py-4 text-slate-500 font-mono text-xs">06 98 76 54 32</td>
+<td class="px-6 py-4 text-primary hover:underline cursor-pointer">innov.co</td>
+<td class="px-4 py-4 text-right">
+<button class="opacity-0 group-hover:opacity-100 p-1.5 rounded-md hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-500 transition-all">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/30 transition-colors group">
+<td class="px-6 py-4 font-medium text-slate-900 dark:text-white">Leroy</td>
+<td class="px-6 py-4 text-slate-600 dark:text-slate-300">Lucas</td>
+<td class="px-6 py-4 text-slate-600 dark:text-slate-300">lucas@devstudio.net</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 px-2 py-1 rounded-md bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-medium">
+<span class="size-1.5 rounded-full bg-slate-500"></span> DevStudio
+                                </span>
+</td>
+<td class="px-6 py-4 text-slate-600 dark:text-slate-300">Lead Dev</td>
+<td class="px-6 py-4 text-slate-500 font-mono text-xs">01 23 45 67 89</td>
+<td class="px-6 py-4 text-primary hover:underline cursor-pointer">devstudio.net</td>
+<td class="px-4 py-4 text-right">
+<button class="opacity-0 group-hover:opacity-100 p-1.5 rounded-md hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-500 transition-all">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="bg-slate-50/50 dark:bg-slate-800/50 px-6 py-4 border-t border-slate-200 dark:border-slate-700 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
+<p>Affichage de 4 sur 35 lignes</p>
+<div class="flex gap-2">
+<button class="px-2 py-1 rounded hover:bg-slate-200 dark:hover:bg-slate-700 disabled:opacity-50" disabled="">Précédent</button>
+<button class="px-2 py-1 rounded hover:bg-slate-200 dark:hover:bg-slate-700">Suivant</button>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+<div class="fixed bottom-0 w-full bg-surface-light/80 dark:bg-surface-dark/80 backdrop-blur-md border-t border-slate-200 dark:border-slate-800 p-4 z-40">
+<div class="max-w-[1100px] mx-auto flex items-center justify-between">
+<button class="text-sm font-semibold text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white px-4 py-2 rounded-lg transition-colors">
+            Annuler
+        </button>
+<div class="flex gap-4">
+<span class="hidden sm:block text-sm text-slate-500 dark:text-slate-400 self-center">35 prospects prêts à être importés</span>
+<button class="flex items-center gap-2 bg-primary hover:bg-primary-hover text-white text-sm font-bold px-6 py-2.5 rounded-xl shadow-lg shadow-primary/25 transition-all transform hover:scale-[1.02] active:scale-[0.98]">
+<span class="material-symbols-outlined text-[20px]">check</span>
+                Valider l'import
+            </button>
+</div>
+</div>
+</div>
+
+</body></html>

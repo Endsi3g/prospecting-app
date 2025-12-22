@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+
+<html class="light" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Création Modèle - Prospekt</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0071E3", /* Apple Blue */
+                        "primary-hover": "#0077ED",
+                        "background-light": "#F5F5F7", /* Apple Gray Background */
+                        "background-dark": "#000000",
+                        "surface-light": "#FFFFFF",
+                        "surface-dark": "#1C1C1E",
+                        "text-primary": "#1D1D1F",
+                        "text-secondary": "#86868B",
+                        "border-light": "#D2D2D7",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "body": ["Inter", "sans-serif"],
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.375rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1rem",
+                        "full": "9999px"
+                    },
+                    boxShadow: {
+                        "apple-card": "0 2px 12px 0 rgba(0, 0, 0, 0.02), 0 0 1px 0 rgba(0, 0, 0, 0.1)",
+                        "apple-focus": "0 0 0 4px rgba(0, 113, 227, 0.2)",
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+        .apple-blur {
+            backdrop-filter: saturate(180%) blur(20px);
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+        /* Custom scrollbar for text area */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: rgba(0, 0, 0, 0.1);
+            border-radius: 20px;
+        }
+        .editor-content:focus {
+            outline: none;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-text-primary h-screen flex flex-col overflow-hidden">
+<!-- Top Navigation Bar -->
+<header class="sticky top-0 z-50 w-full border-b border-[#e5e5e5] apple-blur h-16 flex items-center justify-between px-6 lg:px-12 transition-all duration-200">
+<div class="flex items-center gap-4">
+<button class="flex items-center justify-center p-2 rounded-full hover:bg-black/5 transition-colors text-text-secondary hover:text-text-primary">
+<span class="material-symbols-outlined text-[20px]">arrow_back_ios_new</span>
+</button>
+<div class="flex flex-col">
+<h1 class="text-text-primary text-lg font-semibold leading-tight">Nouveau modèle</h1>
+<span class="text-text-secondary text-xs">Brouillon - Sauvegardé il y a 2m</span>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<button class="flex items-center justify-center h-9 px-4 rounded-lg text-text-primary hover:bg-black/5 text-sm font-medium transition-colors">
+<span class="mr-2 material-symbols-outlined text-[18px]">visibility</span>
+                Prévisualiser
+            </button>
+<div class="h-6 w-px bg-gray-300 mx-1"></div>
+<button class="flex items-center justify-center h-9 px-4 rounded-lg text-text-primary hover:bg-black/5 text-sm font-medium transition-colors">
+                Annuler
+            </button>
+<button class="flex items-center justify-center h-9 px-5 rounded-lg bg-primary hover:bg-primary-hover text-white text-sm font-medium shadow-sm transition-all hover:shadow-md">
+                Enregistrer
+            </button>
+</div>
+</header>
+<!-- Main Workspace -->
+<main class="flex-1 overflow-y-auto custom-scrollbar flex justify-center p-6 lg:p-10">
+<div class="w-full max-w-[800px] flex flex-col gap-6 animate-fade-in-up">
+<!-- Metadata Card -->
+<div class="bg-surface-light rounded-xl shadow-apple-card border border-black/5 p-6 flex flex-col gap-6">
+<!-- Title Input -->
+<div class="flex flex-col gap-2">
+<label class="text-xs font-semibold uppercase tracking-wider text-text-secondary pl-1">Nom du modèle</label>
+<input class="w-full text-2xl font-semibold text-text-primary placeholder:text-gray-300 border-none p-0 focus:ring-0 bg-transparent" placeholder="Ex: Relance post-événement..." type="text" value="Séquence de bienvenue - Etape 1"/>
+</div>
+<!-- Channel Selector -->
+<div class="flex flex-col gap-2">
+<label class="text-xs font-semibold uppercase tracking-wider text-text-secondary pl-1">Canal de diffusion</label>
+<div class="flex w-full sm:w-auto self-start bg-background-light p-1 rounded-lg">
+<label class="cursor-pointer relative flex-1 sm:flex-none">
+<input checked="" class="peer sr-only" name="channel" type="radio" value="email"/>
+<div class="px-6 py-1.5 rounded-md text-sm font-medium text-text-secondary transition-all peer-checked:bg-white peer-checked:text-text-primary peer-checked:shadow-sm flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[18px]">mail</span>
+                                Email
+                            </div>
+</label>
+<label class="cursor-pointer relative flex-1 sm:flex-none">
+<input class="peer sr-only" name="channel" type="radio" value="linkedin"/>
+<div class="px-6 py-1.5 rounded-md text-sm font-medium text-text-secondary transition-all peer-checked:bg-white peer-checked:text-[#0077b5] peer-checked:shadow-sm flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[18px]">post_add</span>
+                                LinkedIn
+                            </div>
+</label>
+</div>
+</div>
+</div>
+<!-- Editor Card -->
+<div class="bg-surface-light rounded-xl shadow-apple-card border border-black/5 flex flex-col min-h-[500px] overflow-hidden">
+<!-- Toolbar -->
+<div class="sticky top-0 z-10 bg-white/95 backdrop-blur-sm border-b border-gray-100 px-4 py-3 flex flex-wrap items-center justify-between gap-3">
+<!-- Formatting Tools -->
+<div class="flex items-center gap-1 bg-background-light rounded-lg p-1">
+<button class="p-1.5 rounded hover:bg-white hover:shadow-sm text-text-primary transition-all" title="Gras">
+<span class="material-symbols-outlined text-[20px]">format_bold</span>
+</button>
+<button class="p-1.5 rounded hover:bg-white hover:shadow-sm text-text-primary transition-all" title="Italique">
+<span class="material-symbols-outlined text-[20px]">format_italic</span>
+</button>
+<button class="p-1.5 rounded hover:bg-white hover:shadow-sm text-text-primary transition-all" title="Liste">
+<span class="material-symbols-outlined text-[20px]">format_list_bulleted</span>
+</button>
+<div class="w-px h-4 bg-gray-300 mx-1"></div>
+<button class="p-1.5 rounded hover:bg-white hover:shadow-sm text-text-primary transition-all" title="Lien">
+<span class="material-symbols-outlined text-[20px]">link</span>
+</button>
+</div>
+<!-- Variable Insertion -->
+<div class="relative group">
+<button class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-primary/10 hover:bg-primary/20 text-primary text-sm font-medium transition-colors">
+<span class="material-symbols-outlined text-[18px]">data_object</span>
+                            Insérer variable
+                            <span class="material-symbols-outlined text-[16px]">expand_more</span>
+</button>
+<!-- Dropdown Simulator -->
+<div class="absolute right-0 top-full mt-2 w-48 bg-white rounded-lg shadow-xl border border-gray-100 py-1 hidden group-hover:block animate-in fade-in slide-in-from-top-2 duration-200">
+<button class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-primary">Prénom</button>
+<button class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-primary">Nom</button>
+<button class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-primary">Entreprise</button>
+<button class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-primary">Poste</button>
+</div>
+</div>
+</div>
+<!-- Text Area (Content Editable) -->
+<div class="flex-1 p-8 cursor-text" onclick="document.getElementById('editor-body').focus()">
+<div class="editor-content w-full h-full text-lg leading-relaxed text-text-primary focus:outline-none min-h-[300px]" contenteditable="true" id="editor-body">
+<p class="mb-4">Bonjour <span class="inline-flex items-center align-middle rounded-md bg-primary/10 px-2 py-0.5 text-sm font-medium text-primary select-none" contenteditable="false">Prénom</span>,</p>
+<p class="mb-4">J'espère que vous allez bien.</p>
+<p class="mb-4">Je suivais récemment les actualités de <span class="inline-flex items-center align-middle rounded-md bg-primary/10 px-2 py-0.5 text-sm font-medium text-primary select-none" contenteditable="false">Entreprise</span> et j'ai été impressionné par votre dernière levée de fonds.</p>
+<p class="mb-4">En tant que <span class="inline-flex items-center align-middle rounded-md bg-primary/10 px-2 py-0.5 text-sm font-medium text-primary select-none" contenteditable="false">Poste</span>, vous savez surement à quel point il est crucial d'optimiser vos processus de vente en cette période de croissance.</p>
+<p class="mb-4">Seriez-vous disponible pour un court échange de 15 minutes mardi prochain ?</p>
+<p class="mb-8">Cordialement,</p>
+</div>
+</div>
+<!-- Footer Status -->
+<div class="px-6 py-3 bg-gray-50 border-t border-gray-100 flex justify-between items-center text-xs text-text-secondary">
+<span>~145 mots</span>
+<span>Dernière modification : Aujourd'hui 14:30</span>
+</div>
+</div>
+<!-- Helper/Tip -->
+<div class="flex gap-4 p-4 rounded-lg bg-blue-50 border border-blue-100 text-blue-800 text-sm">
+<span class="material-symbols-outlined text-blue-600 shrink-0">info</span>
+<div>
+<p class="font-medium mb-1">Astuce de rédaction</p>
+<p class="opacity-90 leading-relaxed">Les messages LinkedIn sont plus efficaces lorsqu'ils font moins de 300 caractères. Utilisez des variables pour personnaliser chaque approche.</p>
+</div>
+</div>
+</div>
+</main>
+</body></html>

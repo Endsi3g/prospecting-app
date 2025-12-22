@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Message Templates - Prospekt</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0073e6",
+                        "background-light": "#f5f7f8",
+                        "background-dark": "#0f1923",
+                        "apple-gray": "#f5f5f7",
+                        "apple-border": "#e5e5ea",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "sans": ["Inter", "sans-serif"],
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px"},
+                    boxShadow: {
+                        'soft': '0 2px 8px 0 rgba(0, 0, 0, 0.04), 0 1px 2px 0 rgba(0, 0, 0, 0.02)',
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Custom scrollbar for webkit */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #d1d5db;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #9ca3af;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white h-screen overflow-hidden flex flex-row">
+<!-- Sidebar -->
+<aside class="w-64 h-full bg-white dark:bg-[#1a202c] border-r border-apple-border dark:border-gray-700 flex flex-col justify-between shrink-0 z-20">
+<div class="flex flex-col p-4 gap-6">
+<!-- Brand -->
+<div class="flex items-center gap-3 px-2">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-xl size-10 shadow-sm border border-gray-100" data-alt="Abstract colorful gradient logo representing the brand" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC8NmbBSScz2HrDreMHO5ysGdzcqwZ2-r8nz9iBYpxbPM8Aj-Ba3jmk4t64Szdob8Kfo9qBdWTrJiYRYzPDvzg9hxfgrVMILOYNZGcXgGwYW4MW6WuPUP8-CiLUMivx84W9HtgwEU9rEZUX0Vn1NulkS4bU2GJsCicZLdEAjKw5obHAedcowkFd7B1nBoKN4097E9KQrBIOLSnoybsAATShi0zkYEjkBVyVQEzeb8G22xjqdA_Ed_e9ulEhaTFPol0uo0JiQtJ9CP0");'></div>
+<div class="flex flex-col">
+<h1 class="text-slate-900 dark:text-white text-base font-bold leading-none tracking-tight">Prospekt</h1>
+<p class="text-slate-500 dark:text-slate-400 text-xs font-medium mt-1">Growth Platform</p>
+</div>
+</div>
+<!-- Navigation -->
+<nav class="flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-apple-gray dark:hover:bg-gray-800 transition-colors group" href="#">
+<span class="material-symbols-outlined text-slate-400 group-hover:text-primary transition-colors" style="font-size: 20px;">dashboard</span>
+<span class="text-sm font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-apple-gray dark:hover:bg-gray-800 transition-colors group" href="#">
+<span class="material-symbols-outlined text-slate-400 group-hover:text-primary transition-colors" style="font-size: 20px;">send</span>
+<span class="text-sm font-medium">Campaigns</span>
+</a>
+<!-- Active Item -->
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/10 text-primary dark:text-blue-400" href="#">
+<span class="material-symbols-outlined text-primary dark:text-blue-400 fill-current" style="font-variation-settings: 'FILL' 1; font-size: 20px;">description</span>
+<span class="text-sm font-semibold">Templates</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-apple-gray dark:hover:bg-gray-800 transition-colors group" href="#">
+<span class="material-symbols-outlined text-slate-400 group-hover:text-primary transition-colors" style="font-size: 20px;">contacts</span>
+<span class="text-sm font-medium">Leads</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-apple-gray dark:hover:bg-gray-800 transition-colors group" href="#">
+<span class="material-symbols-outlined text-slate-400 group-hover:text-primary transition-colors" style="font-size: 20px;">settings</span>
+<span class="text-sm font-medium">Settings</span>
+</a>
+</nav>
+</div>
+<!-- User Profile (Bottom) -->
+<div class="p-4 border-t border-apple-border dark:border-gray-700">
+<div class="flex items-center gap-3 px-2 py-2 rounded-lg hover:bg-apple-gray dark:hover:bg-gray-800 cursor-pointer transition-colors">
+<div class="size-8 rounded-full bg-gradient-to-tr from-blue-400 to-purple-500" data-alt="User profile gradient avatar"></div>
+<div class="flex flex-col overflow-hidden">
+<p class="text-slate-900 dark:text-white text-sm font-medium truncate">Alex Morgan</p>
+<p class="text-slate-500 dark:text-slate-400 text-xs truncate">alex@prospekt.io</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 flex flex-col h-full overflow-hidden relative">
+<!-- Top Toolbar / Header -->
+<header class="h-20 shrink-0 px-8 flex items-center justify-between bg-white/80 dark:bg-[#1a202c]/90 backdrop-blur-md border-b border-apple-border dark:border-gray-700 z-10 sticky top-0">
+<h1 class="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">Templates</h1>
+<div class="flex items-center gap-3">
+<button class="flex items-center justify-center gap-2 h-9 px-4 rounded-lg bg-white dark:bg-gray-800 border border-apple-border dark:border-gray-600 text-slate-700 dark:text-gray-200 text-sm font-medium hover:bg-gray-50 dark:hover:bg-gray-700 transition-all shadow-sm">
+<span class="material-symbols-outlined" style="font-size: 18px;">upload_file</span>
+<span>Import</span>
+</button>
+<button class="flex items-center justify-center gap-2 h-9 px-4 rounded-lg bg-primary text-white text-sm font-medium hover:bg-blue-600 transition-all shadow-sm shadow-blue-200 dark:shadow-none">
+<span class="material-symbols-outlined" style="font-size: 18px;">add</span>
+<span>New Template</span>
+</button>
+</div>
+</header>
+<!-- Scrollable Content -->
+<div class="flex-1 overflow-y-auto p-8">
+<div class="max-w-6xl mx-auto flex flex-col gap-6">
+<!-- Description -->
+<div>
+<p class="text-slate-500 dark:text-slate-400 text-base max-w-2xl">
+                        Manage your prospecting message templates. Create reusable content for your email, LinkedIn, and SMS campaigns to save time.
+                    </p>
+</div>
+<!-- Filters & Search Bar -->
+<div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white dark:bg-gray-800 p-1 rounded-xl">
+<!-- Search -->
+<div class="relative w-full sm:max-w-md">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-slate-400" style="font-size: 20px;">search</span>
+</div>
+<input class="block w-full pl-10 pr-3 py-2.5 border-none rounded-lg bg-apple-gray dark:bg-gray-700 text-slate-900 dark:text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-primary/50 text-sm transition-all" placeholder="Search by name or content..." type="text"/>
+</div>
+<!-- Filter Chips -->
+<div class="flex items-center gap-2 overflow-x-auto pb-1 sm:pb-0 w-full sm:w-auto scrollbar-hide">
+<button class="shrink-0 px-3 py-1.5 rounded-lg bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-sm font-medium shadow-sm transition-transform active:scale-95">All Types</button>
+<button class="shrink-0 px-3 py-1.5 rounded-lg bg-white dark:bg-gray-700 border border-apple-border dark:border-gray-600 text-slate-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600 text-sm font-medium transition-colors">Email</button>
+<button class="shrink-0 px-3 py-1.5 rounded-lg bg-white dark:bg-gray-700 border border-apple-border dark:border-gray-600 text-slate-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600 text-sm font-medium transition-colors">LinkedIn</button>
+<button class="shrink-0 px-3 py-1.5 rounded-lg bg-white dark:bg-gray-700 border border-apple-border dark:border-gray-600 text-slate-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600 text-sm font-medium transition-colors">SMS</button>
+</div>
+</div>
+<!-- Template Table -->
+<div class="bg-white dark:bg-gray-800 rounded-xl shadow-soft border border-apple-border dark:border-gray-700 overflow-hidden">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-gray-50/50 dark:bg-gray-700/50 border-b border-apple-border dark:border-gray-700">
+<th class="px-6 py-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider w-1/4">Name</th>
+<th class="px-6 py-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider w-1/3">Content Preview</th>
+<th class="px-6 py-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider w-auto">Channel</th>
+<th class="px-6 py-4 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider w-auto text-right">Modified</th>
+<th class="px-6 py-4 w-12"></th>
+</tr>
+</thead>
+<tbody class="divide-y divide-apple-border dark:divide-gray-700">
+<!-- Row 1 -->
+<tr class="group hover:bg-blue-50/30 dark:hover:bg-blue-900/10 transition-colors cursor-pointer">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="p-2 rounded-lg bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 shrink-0">
+<span class="material-symbols-outlined" style="font-size: 20px;">mail</span>
+</div>
+<div>
+<p class="text-sm font-semibold text-slate-900 dark:text-white">Cold Intro - CEO</p>
+<p class="text-xs text-slate-500 dark:text-slate-400">Campaign: Q4 Outreach</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<p class="text-sm text-slate-600 dark:text-slate-300 line-clamp-1">Hi {{firstName}}, I noticed that you are leading the sales team at {{companyName}} and I wanted to...</p>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-blue-50 text-blue-700 dark:bg-blue-900/50 dark:text-blue-300 border border-blue-100 dark:border-blue-800">
+                                        Email
+                                    </span>
+</td>
+<td class="px-6 py-4 text-right">
+<p class="text-sm text-slate-500 dark:text-slate-400">Oct 24, 2023</p>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="p-1.5 rounded-md text-slate-400 hover:text-slate-600 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-slate-200 transition-colors opacity-0 group-hover:opacity-100">
+<span class="material-symbols-outlined" style="font-size: 20px;">more_horiz</span>
+</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="group hover:bg-blue-50/30 dark:hover:bg-blue-900/10 transition-colors cursor-pointer">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="p-2 rounded-lg bg-sky-100 dark:bg-sky-900/30 text-sky-600 dark:text-sky-400 shrink-0">
+<span class="material-symbols-outlined" style="font-size: 20px;">work</span>
+</div>
+<div>
+<p class="text-sm font-semibold text-slate-900 dark:text-white">LinkedIn Connection</p>
+<p class="text-xs text-slate-500 dark:text-slate-400">Generic connection request</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<p class="text-sm text-slate-600 dark:text-slate-300 line-clamp-1">Hey {{firstName}}, would love to connect and share insights on B2B growth strategies.</p>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-sky-50 text-sky-700 dark:bg-sky-900/50 dark:text-sky-300 border border-sky-100 dark:border-sky-800">
+                                        LinkedIn
+                                    </span>
+</td>
+<td class="px-6 py-4 text-right">
+<p class="text-sm text-slate-500 dark:text-slate-400">Oct 22, 2023</p>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="p-1.5 rounded-md text-slate-400 hover:text-slate-600 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-slate-200 transition-colors opacity-0 group-hover:opacity-100">
+<span class="material-symbols-outlined" style="font-size: 20px;">more_horiz</span>
+</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="group hover:bg-blue-50/30 dark:hover:bg-blue-900/10 transition-colors cursor-pointer">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="p-2 rounded-lg bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 shrink-0">
+<span class="material-symbols-outlined" style="font-size: 20px;">sms</span>
+</div>
+<div>
+<p class="text-sm font-semibold text-slate-900 dark:text-white">Meeting Confirmation</p>
+<p class="text-xs text-slate-500 dark:text-slate-400">Automated Reminder</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<p class="text-sm text-slate-600 dark:text-slate-300 line-clamp-1">Hi {{firstName}}, just confirming our call for tomorrow at 2 PM. Reply Y to confirm.</p>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-purple-50 text-purple-700 dark:bg-purple-900/50 dark:text-purple-300 border border-purple-100 dark:border-purple-800">
+                                        SMS
+                                    </span>
+</td>
+<td class="px-6 py-4 text-right">
+<p class="text-sm text-slate-500 dark:text-slate-400">Oct 20, 2023</p>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="p-1.5 rounded-md text-slate-400 hover:text-slate-600 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-slate-200 transition-colors opacity-0 group-hover:opacity-100">
+<span class="material-symbols-outlined" style="font-size: 20px;">more_horiz</span>
+</button>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="group hover:bg-blue-50/30 dark:hover:bg-blue-900/10 transition-colors cursor-pointer">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="p-2 rounded-lg bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 shrink-0">
+<span class="material-symbols-outlined" style="font-size: 20px;">mail</span>
+</div>
+<div>
+<p class="text-sm font-semibold text-slate-900 dark:text-white">Follow-up #2</p>
+<p class="text-xs text-slate-500 dark:text-slate-400">Campaign: Q4 Outreach</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<p class="text-sm text-slate-600 dark:text-slate-300 line-clamp-1">Just bumping this to the top of your inbox. Did you have a chance to review my previous email?</p>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-blue-50 text-blue-700 dark:bg-blue-900/50 dark:text-blue-300 border border-blue-100 dark:border-blue-800">
+                                        Email
+                                    </span>
+</td>
+<td class="px-6 py-4 text-right">
+<p class="text-sm text-slate-500 dark:text-slate-400">Oct 18, 2023</p>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="p-1.5 rounded-md text-slate-400 hover:text-slate-600 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-slate-200 transition-colors opacity-0 group-hover:opacity-100">
+<span class="material-symbols-outlined" style="font-size: 20px;">more_horiz</span>
+</button>
+</td>
+</tr>
+<!-- Row 5 -->
+<tr class="group hover:bg-blue-50/30 dark:hover:bg-blue-900/10 transition-colors cursor-pointer">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="p-2 rounded-lg bg-sky-100 dark:bg-sky-900/30 text-sky-600 dark:text-sky-400 shrink-0">
+<span class="material-symbols-outlined" style="font-size: 20px;">work</span>
+</div>
+<div>
+<p class="text-sm font-semibold text-slate-900 dark:text-white">Thanks for connecting</p>
+<p class="text-xs text-slate-500 dark:text-slate-400">Soft sell after acceptance</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<p class="text-sm text-slate-600 dark:text-slate-300 line-clamp-1">Thanks for accepting the request, {{firstName}}. I see we both work in the fintech space.</p>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-sky-50 text-sky-700 dark:bg-sky-900/50 dark:text-sky-300 border border-sky-100 dark:border-sky-800">
+                                        LinkedIn
+                                    </span>
+</td>
+<td class="px-6 py-4 text-right">
+<p class="text-sm text-slate-500 dark:text-slate-400">Sep 30, 2023</p>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="p-1.5 rounded-md text-slate-400 hover:text-slate-600 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-slate-200 transition-colors opacity-0 group-hover:opacity-100">
+<span class="material-symbols-outlined" style="font-size: 20px;">more_horiz</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+<!-- Pagination Footer -->
+<div class="px-6 py-4 border-t border-apple-border dark:border-gray-700 flex items-center justify-between bg-gray-50/50 dark:bg-gray-800">
+<p class="text-xs text-slate-500 dark:text-slate-400">Showing 1 to 5 of 24 results</p>
+<div class="flex items-center gap-2">
+<button class="p-1 rounded hover:bg-gray-200 dark:hover:bg-gray-600 text-slate-500 disabled:opacity-50 transition-colors" disabled="">
+<span class="material-symbols-outlined" style="font-size: 18px;">chevron_left</span>
+</button>
+<button class="p-1 rounded hover:bg-gray-200 dark:hover:bg-gray-600 text-slate-500 transition-colors">
+<span class="material-symbols-outlined" style="font-size: 18px;">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

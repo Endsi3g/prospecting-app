@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ProspectFlow Analytics</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Config -->
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#0073e6",
+                        "background-light": "#f5f7f8",
+                        "background-dark": "#0f1923",
+                        "card-light": "#ffffff",
+                        "card-dark": "#1a2634",
+                        "text-main": "#1d1d1f",
+                        "text-secondary": "#86868b",
+                        "border-light": "#e5e5e5",
+                        "border-dark": "#2d3b4f",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "0.75rem",
+                        "xl": "1rem",
+                        "2xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                    boxShadow: {
+                        "apple": "0 4px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px -1px rgba(0, 0, 0, 0.02)",
+                        "apple-hover": "0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.025)"
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        /* Custom scrollbar for webkit */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #d1d5db;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #9ca3af;
+        }
+        
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-text-main dark:text-white transition-colors duration-200">
+<div class="flex h-screen w-full overflow-hidden">
+<!-- Sidebar Navigation -->
+<aside class="w-64 flex-shrink-0 border-r border-border-light dark:border-border-dark bg-white/80 dark:bg-card-dark/80 backdrop-blur-xl flex flex-col z-20 transition-all">
+<div class="p-6 flex items-center gap-3">
+<div class="h-8 w-8 rounded-lg bg-primary flex items-center justify-center text-white">
+<span class="material-symbols-outlined text-xl">insights</span>
+</div>
+<h1 class="font-semibold text-lg tracking-tight">ProspectFlow</h1>
+</div>
+<nav class="flex-1 px-4 space-y-1 overflow-y-auto">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary/10 text-primary font-medium transition-colors" href="#">
+<span class="material-symbols-outlined filled text-[20px]">grid_view</span>
+<span class="text-sm">Tableau de bord</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-text-secondary hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-text-main transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">group</span>
+<span class="text-sm">Prospects</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-text-secondary hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-text-main transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">rocket_launch</span>
+<span class="text-sm">Campagnes</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-text-secondary hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-text-main transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">mail</span>
+<span class="text-sm">Messages</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-text-secondary hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-text-main transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">bar_chart</span>
+<span class="text-sm">Rapports</span>
+</a>
+</nav>
+<div class="p-4 border-t border-border-light dark:border-border-dark">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-text-secondary hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-text-main transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+<span class="text-sm">Paramètres</span>
+</a>
+<div class="flex items-center gap-3 mt-4 px-3 py-2">
+<div class="h-8 w-8 rounded-full bg-gray-200 bg-cover bg-center" data-alt="User Avatar" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBRkcdg8oQ53lHJ2_PufXvS6ayTkmGk30mk5-U0uDk8za8Lo2JTpLbt3uJI6g3T0TrfKqatzNyhfC7PScCT7I_h0Rm3BbV2Q2EQrSHuWc8vWbCyiEnc04oShv_WBC3Gv4ICqunOBPISHtUULBWhjRJkgautqzpOVsKiypIwZfnBB9Ed_CLgvipfxdUmTMuQ7eUhhJwaYbmpwQDMWtoNjzIf-MpF88K1ECvpdLYF8Jk3pE4NrvC9FE9sDEOHT0dt4qXVHWtQLIUbH_E');"></div>
+<div class="flex flex-col">
+<span class="text-sm font-medium text-text-main dark:text-white">Alice Dubois</span>
+<span class="text-xs text-text-secondary">Admin</span>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 flex flex-col h-full overflow-hidden relative">
+<!-- Header -->
+<header class="h-16 flex items-center justify-between px-8 border-b border-border-light dark:border-border-dark bg-white/50 dark:bg-card-dark/50 backdrop-blur-md sticky top-0 z-10">
+<div class="flex items-center gap-4">
+<h2 class="text-xl font-semibold text-text-main dark:text-white tracking-tight">Vue d'ensemble</h2>
+<span class="h-4 w-px bg-gray-300 dark:bg-gray-600"></span>
+<div class="flex items-center text-sm text-text-secondary">
+<span class="material-symbols-outlined text-[16px] mr-1">calendar_today</span>
+<span>30 derniers jours</span>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<!-- Search -->
+<div class="relative group">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 text-text-secondary group-focus-within:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">search</span>
+</span>
+<input class="pl-10 pr-4 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary w-64 transition-all shadow-sm" placeholder="Rechercher..." type="text"/>
+</div>
+<!-- Notifications -->
+<button class="w-9 h-9 flex items-center justify-center rounded-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-text-secondary hover:text-primary transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+</button>
+</div>
+</header>
+<!-- Scrollable Content -->
+<div class="flex-1 overflow-y-auto p-8">
+<div class="max-w-[1200px] mx-auto space-y-8 pb-10">
+<!-- Chips / Filters -->
+<div class="flex flex-wrap gap-2">
+<button class="bg-primary text-white px-4 py-1.5 rounded-full text-sm font-medium shadow-sm hover:shadow transition-all flex items-center gap-1">
+                            Tous
+                        </button>
+<button class="bg-white dark:bg-card-dark text-text-secondary dark:text-gray-300 border border-border-light dark:border-border-dark px-4 py-1.5 rounded-full text-sm font-medium hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                            Campagne Q3
+                        </button>
+<button class="bg-white dark:bg-card-dark text-text-secondary dark:text-gray-300 border border-border-light dark:border-border-dark px-4 py-1.5 rounded-full text-sm font-medium hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                            Secteur Tech
+                        </button>
+<button class="bg-white dark:bg-card-dark text-text-secondary dark:text-gray-300 border border-border-light dark:border-border-dark px-4 py-1.5 rounded-full text-sm font-medium hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">filter_list</span>
+                            Filtres
+                        </button>
+</div>
+<!-- Stats KPI -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="bg-card-light dark:bg-card-dark p-6 rounded-xl shadow-apple border border-border-light dark:border-border-dark flex flex-col justify-between h-32 hover:shadow-apple-hover transition-shadow cursor-default">
+<div class="flex justify-between items-start">
+<span class="text-text-secondary text-sm font-medium">Prospects Identifiés</span>
+<span class="bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 text-xs font-semibold px-2 py-0.5 rounded-full">+12.5%</span>
+</div>
+<div>
+<h3 class="text-3xl font-bold text-text-main dark:text-white tracking-tight">1,240</h3>
+<p class="text-xs text-text-secondary mt-1">vs 1,102 le mois dernier</p>
+</div>
+</div>
+<div class="bg-card-light dark:bg-card-dark p-6 rounded-xl shadow-apple border border-border-light dark:border-border-dark flex flex-col justify-between h-32 hover:shadow-apple-hover transition-shadow cursor-default">
+<div class="flex justify-between items-start">
+<span class="text-text-secondary text-sm font-medium">Taux d'Engagement</span>
+<span class="bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 text-xs font-semibold px-2 py-0.5 rounded-full">+2.4%</span>
+</div>
+<div>
+<h3 class="text-3xl font-bold text-text-main dark:text-white tracking-tight">18.5%</h3>
+<p class="text-xs text-text-secondary mt-1">Moyenne secteur: 15%</p>
+</div>
+</div>
+<div class="bg-card-light dark:bg-card-dark p-6 rounded-xl shadow-apple border border-border-light dark:border-border-dark flex flex-col justify-between h-32 hover:shadow-apple-hover transition-shadow cursor-default">
+<div class="flex justify-between items-start">
+<span class="text-text-secondary text-sm font-medium">Opportunités Qualifiées</span>
+<span class="bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400 text-xs font-semibold px-2 py-0.5 rounded-full">Stable</span>
+</div>
+<div>
+<h3 class="text-3xl font-bold text-text-main dark:text-white tracking-tight">45</h3>
+<p class="text-xs text-text-secondary mt-1">12 en attente de réponse</p>
+</div>
+</div>
+</div>
+<!-- Charts Row 1 -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+<!-- Main Chart: Performance Over Time -->
+<div class="lg:col-span-2 bg-card-light dark:bg-card-dark p-6 rounded-xl shadow-apple border border-border-light dark:border-border-dark flex flex-col h-[400px]">
+<div class="flex justify-between items-center mb-6">
+<div>
+<h3 class="text-lg font-semibold text-text-main dark:text-white">Performance des Campagnes</h3>
+<p class="text-sm text-text-secondary">Efficacité des messages par semaine</p>
+</div>
+<div class="flex gap-2">
+<button class="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 text-text-secondary transition-colors">
+<span class="material-symbols-outlined text-[20px]">download</span>
+</button>
+</div>
+</div>
+<!-- Custom CSS Chart Visualization -->
+<div class="flex-1 flex items-end gap-3 w-full px-2 pt-4 relative">
+<!-- Grid Lines Background -->
+<div class="absolute inset-0 top-0 bottom-8 left-0 right-0 flex flex-col justify-between pointer-events-none z-0 px-2 opacity-50">
+<div class="border-b border-dashed border-gray-200 dark:border-gray-700 w-full"></div>
+<div class="border-b border-dashed border-gray-200 dark:border-gray-700 w-full"></div>
+<div class="border-b border-dashed border-gray-200 dark:border-gray-700 w-full"></div>
+<div class="border-b border-dashed border-gray-200 dark:border-gray-700 w-full"></div>
+<div class="border-b border-dashed border-gray-200 dark:border-gray-700 w-full"></div>
+</div>
+<!-- Bars -->
+<div class="group relative flex-1 bg-gray-100 dark:bg-gray-800 rounded-t-sm h-[30%] hover:bg-primary/20 transition-all cursor-pointer">
+<div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 bg-text-main text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-10">30%</div>
+<div class="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs text-text-secondary">W1</div>
+<div class="absolute bottom-0 left-0 right-0 h-full bg-primary/30 rounded-t-sm mx-1"></div>
+</div>
+<div class="group relative flex-1 bg-gray-100 dark:bg-gray-800 rounded-t-sm h-[45%] hover:bg-primary/20 transition-all cursor-pointer">
+<div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 bg-text-main text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-10">45%</div>
+<div class="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs text-text-secondary">W2</div>
+<div class="absolute bottom-0 left-0 right-0 h-[60%] bg-primary rounded-t-sm mx-1 shadow-lg shadow-primary/20"></div>
+</div>
+<div class="group relative flex-1 bg-gray-100 dark:bg-gray-800 rounded-t-sm h-[35%] hover:bg-primary/20 transition-all cursor-pointer">
+<div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 bg-text-main text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-10">35%</div>
+<div class="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs text-text-secondary">W3</div>
+<div class="absolute bottom-0 left-0 right-0 h-[80%] bg-primary/80 rounded-t-sm mx-1"></div>
+</div>
+<div class="group relative flex-1 bg-gray-100 dark:bg-gray-800 rounded-t-sm h-[60%] hover:bg-primary/20 transition-all cursor-pointer">
+<div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 bg-text-main text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-10">60%</div>
+<div class="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs text-text-secondary">W4</div>
+<div class="absolute bottom-0 left-0 right-0 h-[50%] bg-primary/50 rounded-t-sm mx-1"></div>
+</div>
+<div class="group relative flex-1 bg-gray-100 dark:bg-gray-800 rounded-t-sm h-[50%] hover:bg-primary/20 transition-all cursor-pointer">
+<div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 bg-text-main text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-10">50%</div>
+<div class="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs text-text-secondary">W5</div>
+<div class="absolute bottom-0 left-0 right-0 h-[70%] bg-primary/60 rounded-t-sm mx-1"></div>
+</div>
+<div class="group relative flex-1 bg-gray-100 dark:bg-gray-800 rounded-t-sm h-[75%] hover:bg-primary/20 transition-all cursor-pointer">
+<div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 bg-text-main text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-10">75% - Record</div>
+<div class="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs text-text-secondary font-semibold text-primary">W6</div>
+<div class="absolute bottom-0 left-0 right-0 h-full bg-primary rounded-t-sm mx-1 shadow-lg shadow-primary/30"></div>
+</div>
+<div class="group relative flex-1 bg-gray-100 dark:bg-gray-800 rounded-t-sm h-[65%] hover:bg-primary/20 transition-all cursor-pointer">
+<div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 bg-text-main text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-10">65%</div>
+<div class="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs text-text-secondary">W7</div>
+<div class="absolute bottom-0 left-0 right-0 h-[60%] bg-primary/70 rounded-t-sm mx-1"></div>
+</div>
+</div>
+</div>
+<!-- Secondary Chart: Distribution -->
+<div class="bg-card-light dark:bg-card-dark p-6 rounded-xl shadow-apple border border-border-light dark:border-border-dark flex flex-col h-[400px]">
+<h3 class="text-lg font-semibold text-text-main dark:text-white mb-2">Répartition par Secteur</h3>
+<p class="text-sm text-text-secondary mb-6">Prospects actifs par industrie</p>
+<div class="flex-1 flex flex-col items-center justify-center relative">
+<!-- CSS Donut Chart -->
+<div class="relative w-48 h-48 rounded-full border-[16px] border-gray-100 dark:border-gray-800 transform rotate-[-90deg]">
+<!-- Segment 1 (Blue) -->
+<svg class="absolute top-0 left-0 w-full h-full" viewbox="0 0 100 100">
+<circle cx="50" cy="50" fill="none" r="42" stroke="#0073e6" stroke-dasharray="140 264" stroke-linecap="round" stroke-width="16"></circle>
+</svg>
+<!-- Segment 2 (Light Blue) -->
+<svg class="absolute top-0 left-0 w-full h-full" style="transform: rotate(145deg);" viewbox="0 0 100 100">
+<circle cx="50" cy="50" fill="none" r="42" stroke="#60a5fa" stroke-dasharray="70 264" stroke-linecap="round" stroke-width="16"></circle>
+</svg>
+<!-- Segment 3 (Grey) -->
+<svg class="absolute top-0 left-0 w-full h-full" style="transform: rotate(245deg);" viewbox="0 0 100 100">
+<circle cx="50" cy="50" fill="none" r="42" stroke="#e5e7eb" stroke-dasharray="40 264" stroke-linecap="round" stroke-width="16"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center transform rotate-[90deg]">
+<span class="text-2xl font-bold text-text-main dark:text-white">52%</span>
+<span class="text-xs text-text-secondary">Tech</span>
+</div>
+</div>
+</div>
+<div class="mt-6 space-y-3">
+<div class="flex items-center justify-between text-sm">
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 rounded-full bg-primary"></div>
+<span class="text-text-main dark:text-white">Technology</span>
+</div>
+<span class="text-text-secondary">52%</span>
+</div>
+<div class="flex items-center justify-between text-sm">
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 rounded-full bg-blue-400"></div>
+<span class="text-text-main dark:text-white">Finance</span>
+</div>
+<span class="text-text-secondary">28%</span>
+</div>
+<div class="flex items-center justify-between text-sm">
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 rounded-full bg-gray-200 dark:bg-gray-600"></div>
+<span class="text-text-main dark:text-white">Autres</span>
+</div>
+<span class="text-text-secondary">20%</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Row 2: Detailed Lists & Stats -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+<!-- High Potential List -->
+<div class="bg-card-light dark:bg-card-dark rounded-xl shadow-apple border border-border-light dark:border-border-dark overflow-hidden flex flex-col">
+<div class="p-6 border-b border-border-light dark:border-border-dark flex justify-between items-center">
+<div>
+<h3 class="text-lg font-semibold text-text-main dark:text-white">Entreprises à fort potentiel</h3>
+<p class="text-sm text-text-secondary">Basé sur le score d'engagement</p>
+</div>
+<button class="text-sm text-primary font-medium hover:underline">Voir tout</button>
+</div>
+<div class="flex-1 overflow-x-auto">
+<table class="w-full text-left">
+<thead class="bg-gray-50 dark:bg-gray-800/50 text-xs font-semibold text-text-secondary uppercase tracking-wider">
+<tr>
+<th class="px-6 py-3">Entreprise</th>
+<th class="px-6 py-3">Taille</th>
+<th class="px-6 py-3 text-right">Score</th>
+<th class="px-6 py-3"></th>
+</tr>
+</thead>
+<tbody class="divide-y divide-gray-100 dark:divide-gray-800">
+<tr class="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center text-xs font-bold text-gray-500">GL</div>
+<div>
+<div class="text-sm font-medium text-text-main dark:text-white">Global Logistics</div>
+<div class="text-xs text-text-secondary">Transport</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 text-sm text-text-secondary">500+</td>
+<td class="px-6 py-4 text-right">
+<div class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400">
+                                                    98/100
+                                                </div>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="text-gray-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">chevron_right</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center text-xs font-bold text-blue-500">TS</div>
+<div>
+<div class="text-sm font-medium text-text-main dark:text-white">Tech Solutions Inc.</div>
+<div class="text-xs text-text-secondary">SaaS</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 text-sm text-text-secondary">50-200</td>
+<td class="px-6 py-4 text-right">
+<div class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400">
+                                                    92/100
+                                                </div>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="text-gray-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">chevron_right</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-purple-50 flex items-center justify-center text-xs font-bold text-purple-500">NM</div>
+<div>
+<div class="text-sm font-medium text-text-main dark:text-white">Next Media</div>
+<div class="text-xs text-text-secondary">Marketing</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 text-sm text-text-secondary">10-50</td>
+<td class="px-6 py-4 text-right">
+<div class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400">
+                                                    85/100
+                                                </div>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="text-gray-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">chevron_right</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Campaign Effectiveness / Recent Activity -->
+<div class="bg-card-light dark:bg-card-dark rounded-xl shadow-apple border border-border-light dark:border-border-dark flex flex-col">
+<div class="p-6 border-b border-border-light dark:border-border-dark">
+<h3 class="text-lg font-semibold text-text-main dark:text-white">Dernières Activités</h3>
+<p class="text-sm text-text-secondary">Interaction en temps réel</p>
+</div>
+<div class="p-6 space-y-6">
+<div class="flex gap-4">
+<div class="flex-shrink-0 mt-1">
+<div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[16px]">mail</span>
+</div>
+</div>
+<div class="flex-1">
+<p class="text-sm font-medium text-text-main dark:text-white">Email ouvert par <span class="font-bold">Jean Dupont</span></p>
+<p class="text-xs text-text-secondary mt-0.5">Campagne "Relance Q3" • Il y a 5 min</p>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="flex-shrink-0 mt-1">
+<div class="w-8 h-8 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center text-green-600 dark:text-green-400">
+<span class="material-symbols-outlined text-[16px]">check_circle</span>
+</div>
+</div>
+<div class="flex-1">
+<p class="text-sm font-medium text-text-main dark:text-white">Nouveau prospect qualifié</p>
+<p class="text-xs text-text-secondary mt-0.5">Secteur Finance • Il y a 24 min</p>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="flex-shrink-0 mt-1">
+<div class="w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-blue-600 dark:text-blue-400">
+<span class="material-symbols-outlined text-[16px]">link</span>
+</div>
+</div>
+<div class="flex-1">
+<p class="text-sm font-medium text-text-main dark:text-white">Clic sur le lien de démo</p>
+<p class="text-xs text-text-secondary mt-0.5">Tech Solutions Inc. • Il y a 1h</p>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="flex-shrink-0 mt-1">
+<div class="w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center text-gray-500">
+<span class="material-symbols-outlined text-[16px]">person_add</span>
+</div>
+</div>
+<div class="flex-1">
+<p class="text-sm font-medium text-text-main dark:text-white">3 nouveaux prospects ajoutés</p>
+<p class="text-xs text-text-secondary mt-0.5">Import CSV • Il y a 2h</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

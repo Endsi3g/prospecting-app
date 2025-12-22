@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Export Prospects - ProspectFlow</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#0071E3","primary-hover": "#0077ED",
+              "background-light": "#f5f5f7","background-dark": "#000000",
+              "card-light": "#ffffff",
+              "card-dark": "#1c1c1e",
+            },
+            fontFamily: {
+              "display": ["Inter", "-apple-system", "BlinkMacSystemFont", "sans-serif"]
+            },
+            borderRadius: {
+              "DEFAULT": "0.5rem", 
+              "lg": "0.75rem", 
+              "xl": "1rem", 
+              "2xl": "1.25rem","full": "9999px"
+            },
+            boxShadow: {
+                "soft": "0 2px 12px rgba(0, 0, 0, 0.04)","glow": "0 0 0 4px rgba(0, 113, 227, 0.15)"
+            }
+          },
+        },
+      }
+    </script>
+<style>::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #d1d1d6;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #aeaeb2;
+        }
+        .dark ::-webkit-scrollbar-thumb {
+            background: #3a3a3c;
+        }.smooth-transition {
+            transition: all 0.25s cubic-bezier(0.25, 1, 0.5, 1);}input[type="radio"]:checked + div {
+            border-color: #0071E3;
+            box-shadow: 0 0 0 1px #0071E3;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-[#1d1d1f] dark:text-[#f5f5f7] font-display antialiased selection:bg-primary/20 selection:text-primary">
+<div class="relative flex min-h-screen w-full flex-col overflow-x-hidden">
+<header class="sticky top-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-black/5 dark:border-white/10 bg-white/80 dark:bg-[#1c1c1e]/80 backdrop-blur-xl px-6 py-3 lg:px-10 supports-[backdrop-filter]:bg-white/60">
+<div class="flex items-center gap-3">
+<div class="size-8 rounded-lg bg-primary flex items-center justify-center text-white shadow-md shadow-primary/20">
+<span class="material-symbols-outlined text-[20px]">all_inclusive</span>
+</div>
+<h2 class="text-[#1d1d1f] dark:text-white text-[17px] font-semibold tracking-tight">ProspectFlow</h2>
+</div>
+<nav class="hidden md:flex flex-1 justify-center">
+<div class="flex items-center gap-1 rounded-full bg-slate-100/80 dark:bg-[#2c2c2e] p-1">
+<a class="px-4 py-1.5 text-[13px] font-medium text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors rounded-full" href="#">Dashboard</a>
+<a class="px-4 py-1.5 text-[13px] font-medium text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors rounded-full" href="#">Prospects</a>
+<a class="px-4 py-1.5 text-[13px] font-medium text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors rounded-full" href="#">Campagnes</a>
+<a class="px-4 py-1.5 text-[13px] font-semibold text-slate-900 dark:text-white bg-white dark:bg-[#636366] shadow-sm rounded-full" href="#">Export</a>
+</div>
+</nav>
+<div class="flex items-center gap-4">
+<button class="hidden sm:flex size-9 items-center justify-center rounded-full text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+</button>
+<div class="h-6 w-[1px] bg-slate-200 dark:bg-slate-700 hidden sm:block"></div>
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-9 ring-1 ring-slate-200 dark:ring-slate-700 cursor-pointer" data-alt="User profile picture" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAjOeZ2O-MoQHBlf5trHnDMTcmLded1toyuXlhGF7UqCajr8fLWQc_lDSI4McR9rbDySO08jEY4AgWcf2y5Bx89xYZVdusdCoa6UxiuT35bSroz2WW6cFI1Lc2BxTvMHfz2ASLYEPGLxxRVSz9bM1h7S-qXkpdtWC5Ml7rFqaNDNyETJa7YoakBCpIzRjQQMZFqE_DIm8xIwDqoKPf6EgTOHgR6UXqGlzfJ2yUW5D21FwOoETp97DbBCAeX8xSMEhpLNpwJdMNG-xM");'></div>
+</div>
+</header>
+<main class="flex-1 flex flex-col items-center w-full px-4 sm:px-6 lg:px-8 py-10 lg:py-14">
+<div class="w-full max-w-[900px] flex flex-col gap-12">
+<div class="flex flex-col gap-4 text-center md:text-left md:flex-row md:justify-between md:items-end border-b border-slate-200/60 dark:border-slate-800 pb-8">
+<div class="flex flex-col gap-2">
+<h1 class="text-3xl md:text-[34px] font-bold tracking-tight text-[#1d1d1f] dark:text-white">Exporter vos prospects</h1>
+<p class="text-slate-500 dark:text-slate-400 text-[17px] leading-relaxed max-w-2xl font-normal">
+                            Transférez vos données vers vos outils préférés. Choisissez une destination et vérifiez le mappage.
+                        </p>
+</div>
+<div class="hidden md:block mb-1">
+<span class="inline-flex items-center rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary ring-1 ring-inset ring-primary/20">
+                            42 prospects sélectionnés
+                        </span>
+</div>
+</div>
+<section class="flex flex-col gap-6">
+<div class="flex items-center gap-3">
+<div class="flex items-center justify-center size-7 rounded-full bg-black dark:bg-white text-white dark:text-black font-semibold text-sm">1</div>
+<h3 class="text-xl font-semibold text-[#1d1d1f] dark:text-white">Destination</h3>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+<label class="relative group cursor-pointer">
+<input checked="" class="peer sr-only" name="destination" type="radio" value="notion"/>
+<div class="flex flex-col p-6 h-full rounded-2xl bg-white dark:bg-card-dark border border-transparent shadow-sm smooth-transition hover:shadow-md peer-checked:ring-2 peer-checked:ring-primary peer-checked:bg-blue-50/10">
+<div class="absolute top-5 right-5 text-primary opacity-0 peer-checked:opacity-100 transition-opacity scale-90 peer-checked:scale-100 duration-300">
+<span class="material-symbols-outlined fill-current">check_circle</span>
+</div>
+<div class="mb-5 size-12 rounded-xl bg-slate-50 dark:bg-[#2c2c2e] flex items-center justify-center">
+<img alt="Notion logo symbol" class="size-7 object-contain opacity-90" data-alt="Notion application logo symbol" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCTQFZBRNFb4GzDPpQIz7yFTtOGiuMTvFxszJCVBPPmR75m_NdRkbJpCScdcOqVrBCm-NxU4MqJLeHd28tIgeZ4MBrhRMbzl7ZWNEV9nsajanh3nxD9kPSoMe1OJGpHZD7mLdSELG-Ndab98SlEv9yTvTRPyyqiHWpalPSF0mKe0YWf818FLTFbDTHdSSMyj00LpRR44y3Ye4TqcqCFCl2zrvuxXyE6YalSh3EHASJqDSUA3r2kswLtFpiNqv0BxpGHEsqjg9hHxMU"/>
+</div>
+<div>
+<h4 class="text-[17px] font-semibold text-[#1d1d1f] dark:text-white mb-1">Notion Database</h4>
+<p class="text-[14px] text-slate-500 dark:text-slate-400">Synchronisation directe vers une base de données connectée.</p>
+</div>
+</div>
+</label>
+<label class="relative group cursor-pointer">
+<input class="peer sr-only" name="destination" type="radio" value="csv"/>
+<div class="flex flex-col p-6 h-full rounded-2xl bg-white dark:bg-card-dark border border-transparent shadow-sm smooth-transition hover:shadow-md peer-checked:ring-2 peer-checked:ring-primary peer-checked:bg-blue-50/10">
+<div class="absolute top-5 right-5 text-primary opacity-0 peer-checked:opacity-100 transition-opacity scale-90 peer-checked:scale-100 duration-300">
+<span class="material-symbols-outlined fill-current">check_circle</span>
+</div>
+<div class="mb-5 size-12 rounded-xl bg-green-50 dark:bg-green-900/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-green-600 dark:text-green-400 text-[26px]">table_view</span>
+</div>
+<div>
+<h4 class="text-[17px] font-semibold text-[#1d1d1f] dark:text-white mb-1">Fichier CSV / Excel</h4>
+<p class="text-[14px] text-slate-500 dark:text-slate-400">Télécharger un fichier plat compatible avec tous les tableurs.</p>
+</div>
+</div>
+</label>
+</div>
+</section>
+<section class="flex flex-col gap-6">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="flex items-center justify-center size-7 rounded-full bg-black dark:bg-white text-white dark:text-black font-semibold text-sm">2</div>
+<h3 class="text-xl font-semibold text-[#1d1d1f] dark:text-white">Mappage des champs</h3>
+</div>
+<button class="text-sm font-medium text-primary hover:text-primary-hover transition-colors">
+                            Réinitialiser par défaut
+                        </button>
+</div>
+<div class="bg-white dark:bg-card-dark rounded-2xl shadow-soft border border-slate-100 dark:border-slate-800/50 overflow-hidden">
+<div class="grid grid-cols-[1fr_40px_1fr] md:grid-cols-[1fr_60px_1fr] gap-4 px-6 py-3 bg-slate-50/80 dark:bg-[#2c2c2e] border-b border-slate-100 dark:border-slate-700/50 text-[11px] font-semibold uppercase tracking-wide text-slate-500">
+<div>Champ Source</div>
+<div class="text-center"></div>
+<div>Champ Destination (Notion)</div>
+</div>
+<div class="divide-y divide-slate-100 dark:divide-slate-800">
+<div class="grid grid-cols-[1fr_40px_1fr] md:grid-cols-[1fr_60px_1fr] gap-4 px-6 py-3.5 items-center hover:bg-slate-50 dark:hover:bg-[#2c2c2e]/50 transition-colors">
+<div class="flex items-center gap-3 min-w-0">
+<span class="material-symbols-outlined text-slate-400 text-xl shrink-0">person</span>
+<span class="text-slate-700 dark:text-slate-200 font-medium text-sm truncate">Nom</span>
+</div>
+<div class="flex justify-center text-slate-300 dark:text-slate-600">
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</div>
+<div class="relative">
+<select class="w-full appearance-none bg-slate-50 dark:bg-[#2c2c2e] border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white text-[13px] rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary block py-2 pl-3 pr-8 smooth-transition cursor-pointer">
+<option selected="">Last Name</option>
+<option>Full Name</option>
+<option>First Name</option>
+<option>-- Ignorer --</option>
+</select>
+<div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-500">
+<span class="material-symbols-outlined text-lg">expand_more</span>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-[1fr_40px_1fr] md:grid-cols-[1fr_60px_1fr] gap-4 px-6 py-3.5 items-center hover:bg-slate-50 dark:hover:bg-[#2c2c2e]/50 transition-colors">
+<div class="flex items-center gap-3 min-w-0">
+<span class="material-symbols-outlined text-slate-400 text-xl shrink-0">badge</span>
+<span class="text-slate-700 dark:text-slate-200 font-medium text-sm truncate">Prénom</span>
+</div>
+<div class="flex justify-center text-slate-300 dark:text-slate-600">
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</div>
+<div class="relative">
+<select class="w-full appearance-none bg-slate-50 dark:bg-[#2c2c2e] border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white text-[13px] rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary block py-2 pl-3 pr-8 smooth-transition cursor-pointer">
+<option selected="">First Name</option>
+<option>Last Name</option>
+<option>Full Name</option>
+<option>-- Ignorer --</option>
+</select>
+<div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-500">
+<span class="material-symbols-outlined text-lg">expand_more</span>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-[1fr_40px_1fr] md:grid-cols-[1fr_60px_1fr] gap-4 px-6 py-3.5 items-center hover:bg-slate-50 dark:hover:bg-[#2c2c2e]/50 transition-colors">
+<div class="flex items-center gap-3 min-w-0">
+<span class="material-symbols-outlined text-slate-400 text-xl shrink-0">mail</span>
+<span class="text-slate-700 dark:text-slate-200 font-medium text-sm truncate">Email</span>
+</div>
+<div class="flex justify-center text-slate-300 dark:text-slate-600">
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</div>
+<div class="relative">
+<select class="w-full appearance-none bg-slate-50 dark:bg-[#2c2c2e] border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white text-[13px] rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary block py-2 pl-3 pr-8 smooth-transition cursor-pointer">
+<option selected="">Email Address</option>
+<option>Contact Email</option>
+<option>-- Ignorer --</option>
+</select>
+<div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-500">
+<span class="material-symbols-outlined text-lg">expand_more</span>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-[1fr_40px_1fr] md:grid-cols-[1fr_60px_1fr] gap-4 px-6 py-3.5 items-center hover:bg-slate-50 dark:hover:bg-[#2c2c2e]/50 transition-colors">
+<div class="flex items-center gap-3 min-w-0">
+<span class="material-symbols-outlined text-slate-400 text-xl shrink-0">apartment</span>
+<span class="text-slate-700 dark:text-slate-200 font-medium text-sm truncate">Entreprise</span>
+</div>
+<div class="flex justify-center text-slate-300 dark:text-slate-600">
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</div>
+<div class="relative">
+<select class="w-full appearance-none bg-slate-50 dark:bg-[#2c2c2e] border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white text-[13px] rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary block py-2 pl-3 pr-8 smooth-transition cursor-pointer">
+<option selected="">Company Name</option>
+<option>Organization</option>
+<option>-- Ignorer --</option>
+</select>
+<div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-500">
+<span class="material-symbols-outlined text-lg">expand_more</span>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-[1fr_40px_1fr] md:grid-cols-[1fr_60px_1fr] gap-4 px-6 py-3.5 items-center hover:bg-slate-50 dark:hover:bg-[#2c2c2e]/50 transition-colors">
+<div class="flex items-center gap-3 min-w-0">
+<span class="material-symbols-outlined text-slate-400 text-xl shrink-0">work</span>
+<span class="text-slate-700 dark:text-slate-200 font-medium text-sm truncate">Poste</span>
+</div>
+<div class="flex justify-center text-slate-300 dark:text-slate-600">
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</div>
+<div class="relative">
+<select class="w-full appearance-none bg-slate-50 dark:bg-[#2c2c2e] border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white text-[13px] rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary block py-2 pl-3 pr-8 smooth-transition cursor-pointer">
+<option selected="">Job Title</option>
+<option>Role</option>
+<option>-- Ignorer --</option>
+</select>
+<div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-500">
+<span class="material-symbols-outlined text-lg">expand_more</span>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-[1fr_40px_1fr] md:grid-cols-[1fr_60px_1fr] gap-4 px-6 py-3.5 items-center hover:bg-slate-50 dark:hover:bg-[#2c2c2e]/50 transition-colors">
+<div class="flex items-center gap-3 min-w-0">
+<span class="material-symbols-outlined text-slate-400 text-xl shrink-0">call</span>
+<span class="text-slate-700 dark:text-slate-200 font-medium text-sm truncate">Téléphone</span>
+</div>
+<div class="flex justify-center text-slate-300 dark:text-slate-600">
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</div>
+<div class="relative">
+<select class="w-full appearance-none bg-slate-50 dark:bg-[#2c2c2e] border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white text-[13px] rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary block py-2 pl-3 pr-8 smooth-transition cursor-pointer">
+<option selected="">Phone Number</option>
+<option>Mobile</option>
+<option>-- Ignorer --</option>
+</select>
+<div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-500">
+<span class="material-symbols-outlined text-lg">expand_more</span>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-[1fr_40px_1fr] md:grid-cols-[1fr_60px_1fr] gap-4 px-6 py-3.5 items-center hover:bg-slate-50 dark:hover:bg-[#2c2c2e]/50 transition-colors">
+<div class="flex items-center gap-3 min-w-0">
+<span class="material-symbols-outlined text-slate-400 text-xl shrink-0">language</span>
+<span class="text-slate-700 dark:text-slate-200 font-medium text-sm truncate">Site Web</span>
+</div>
+<div class="flex justify-center text-slate-300 dark:text-slate-600">
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</div>
+<div class="relative">
+<select class="w-full appearance-none bg-slate-50 dark:bg-[#2c2c2e] border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white text-[13px] rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary block py-2 pl-3 pr-8 smooth-transition cursor-pointer">
+<option selected="">Website URL</option>
+<option>Domain</option>
+<option>-- Ignorer --</option>
+</select>
+<div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-500">
+<span class="material-symbols-outlined text-lg">expand_more</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<div class="sticky bottom-0 z-10 -mx-4 sm:-mx-6 lg:-mx-8 bg-white/90 dark:bg-[#1c1c1e]/90 backdrop-blur-xl border-t border-slate-200/60 dark:border-slate-800 px-4 py-4 sm:px-6 lg:px-8 supports-[backdrop-filter]:bg-white/80">
+<div class="max-w-[900px] mx-auto flex items-center justify-between">
+<button class="px-6 py-2 rounded-full text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+                            Annuler
+                        </button>
+<div class="flex items-center gap-6">
+<span class="text-xs font-medium text-slate-400 hidden sm:block">Dernier export: Il y a 2 jours</span>
+<button class="flex items-center justify-center gap-2 bg-primary hover:bg-primary-hover text-white px-6 py-2.5 rounded-full font-medium text-sm shadow-lg shadow-primary/20 transform hover:scale-[1.02] active:scale-[0.98] transition-all">
+<span>Exporter 42 prospects</span>
+<span class="material-symbols-outlined text-lg">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+
+</body></html>
