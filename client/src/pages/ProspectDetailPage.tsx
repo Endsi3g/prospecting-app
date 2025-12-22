@@ -63,8 +63,7 @@ export function ProspectDetailPage() {
             if (result.data.aiInsights) {
                 setAiInsights(result.data.aiInsights);
             }
-        } catch {
-            toast.error('Prospect non trouvé');
+        } catch (error) {`r`n            console.error('API error:', error);`r`n            toast.error('Prospect non trouvé');
             navigate('/prospects');
         } finally {
             setLoading(false);
@@ -90,8 +89,7 @@ export function ProspectDetailPage() {
             toast.success('Prospect mis à jour');
             // Reload ICP score after update
             loadICPScore();
-        } catch {
-            toast.error('Erreur lors de la sauvegarde');
+        } catch (error) {`r`n            console.error('API error:', error);`r`n            toast.error('Erreur lors de la sauvegarde');
         } finally {
             setSaving(false);
         }
@@ -103,8 +101,7 @@ export function ProspectDetailPage() {
             await prospectsApi.delete(id);
             toast.success('Prospect supprimé');
             navigate('/prospects');
-        } catch {
-            toast.error('Erreur lors de la suppression');
+        } catch (error) {`r`n            console.error('API error:', error);`r`n            toast.error('Erreur lors de la suppression');
         }
     }
 

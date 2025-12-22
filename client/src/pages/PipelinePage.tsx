@@ -106,8 +106,7 @@ export function PipelinePage() {
             await pipelineApi.moveProspect(prospectId, newStageId);
             toast.success('Prospect déplacé');
             loadStats();
-        } catch {
-            toast.error('Erreur lors du déplacement');
+        } catch (error) {`r`n            console.error('API error:', error);`r`n            toast.error('Erreur lors du déplacement');
             loadPipeline();
         }
         setDraggingProspect(null);

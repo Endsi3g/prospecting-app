@@ -73,8 +73,7 @@ export function ProspectsPage() {
             ]);
             setProspects(prospectsRes.data || []);
             setLists(listsRes.data || []);
-        } catch {
-            toast.error('Erreur lors du chargement des prospects');
+        } catch (error) {`r`n            console.error('API error:', error);`r`n            toast.error('Erreur lors du chargement des prospects');
         } finally {
             setLoading(false);
         }
@@ -123,8 +122,7 @@ export function ProspectsPage() {
             await prospectsApi.delete(id);
             setProspects(prev => prev.filter(p => p.id !== id));
             toast.success('Prospect supprimé');
-        } catch {
-            toast.error('Erreur lors de la suppression');
+        } catch (error) {`r`n            console.error('API error:', error);`r`n            toast.error('Erreur lors de la suppression');
         }
     }
 
@@ -137,8 +135,7 @@ export function ProspectsPage() {
             setProspects(prev => prev.filter(p => !selectedIds.has(p.id)));
             setSelectedIds(new Set());
             toast.success(`${selectedIds.size} prospect(s) supprimé(s)`);
-        } catch {
-            toast.error('Erreur lors de la suppression');
+        } catch (error) {`r`n            console.error('API error:', error);`r`n            toast.error('Erreur lors de la suppression');
         }
     }
 
@@ -151,8 +148,7 @@ export function ProspectsPage() {
             setAssignDialogOpen(false);
             setSelectedIds(new Set());
             setSelectedListId('');
-        } catch {
-            toast.error('Erreur lors de l\'assignation');
+        } catch (error) {`r`n            console.error('API error:', error);`r`n            toast.error('Erreur lors de l\'assignation');
         } finally {
             setAssigning(false);
         }

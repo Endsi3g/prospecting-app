@@ -55,8 +55,7 @@ export function TemplatesPage() {
         try {
             const result = await templatesApi.getAll();
             setTemplates(result.data || []);
-        } catch {
-            toast.error('Erreur lors du chargement');
+        } catch (error) {`r`n            console.error('API error:', error);`r`n            toast.error('Erreur lors du chargement');
         } finally {
             setLoading(false);
         }
@@ -98,8 +97,7 @@ export function TemplatesPage() {
                 toast.success('Template créé');
             }
             setDialogOpen(false);
-        } catch {
-            toast.error('Erreur lors de la sauvegarde');
+        } catch (error) {`r`n            console.error('API error:', error);`r`n            toast.error('Erreur lors de la sauvegarde');
         } finally {
             setSaving(false);
         }
@@ -111,8 +109,7 @@ export function TemplatesPage() {
             await templatesApi.delete(id);
             setTemplates(prev => prev.filter(t => t.id !== id));
             toast.success('Template supprimé');
-        } catch {
-            toast.error('Erreur lors de la suppression');
+        } catch (error) {`r`n            console.error('API error:', error);`r`n            toast.error('Erreur lors de la suppression');
         }
     }
 
@@ -125,8 +122,7 @@ export function TemplatesPage() {
             });
             setTemplates(prev => [result.data, ...prev]);
             toast.success('Template dupliqué');
-        } catch {
-            toast.error('Erreur lors de la duplication');
+        } catch (error) {`r`n            console.error('API error:', error);`r`n            toast.error('Erreur lors de la duplication');
         }
     }
 

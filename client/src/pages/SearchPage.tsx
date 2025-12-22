@@ -71,8 +71,7 @@ export function SearchPage() {
             } else {
                 toast.error(response.error || 'Erreur lors de la recherche');
             }
-        } catch {
-            toast.error('Erreur de connexion');
+        } catch (error) {`r`n            console.error('API error:', error);`r`n            toast.error('Erreur de connexion');
         } finally {
             setSearching(false);
         }
@@ -112,8 +111,7 @@ export function SearchPage() {
             } else {
                 toast.error('Erreur lors de l\'import');
             }
-        } catch {
-            toast.error('Erreur de connexion');
+        } catch (error) {`r`n            console.error('API error:', error);`r`n            toast.error('Erreur de connexion');
         } finally {
             setImporting(false);
         }

@@ -43,8 +43,7 @@ export function MessagesPage() {
                 const prospectsMap: Record<string, Prospect> = {};
                 (prospectsRes.data || []).forEach(p => { prospectsMap[p.id] = p; });
                 setProspects(prospectsMap);
-            } catch {
-                toast.error('Erreur lors du chargement');
+            } catch (error) {`r`n                console.error('API error:', error);`r`n                toast.error('Erreur lors du chargement');
             } finally {
                 setLoading(false);
             }
@@ -96,8 +95,7 @@ export function MessagesPage() {
             await messagesApi.update(id, { status: status as Message['status'] });
             setMessages(prev => prev.map(m => m.id === id ? { ...m, status: status as Message['status'] } : m));
             toast.success('Statut mis à jour');
-        } catch {
-            toast.error('Erreur lors de la mise à jour');
+        } catch (error) {`r`n            console.error('API error:', error);`r`n            toast.error('Erreur lors de la mise à jour');
         }
     }
 

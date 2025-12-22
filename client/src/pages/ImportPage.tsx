@@ -56,8 +56,7 @@ export function ImportPage() {
                 setHeaders(Object.keys(data.data[0]));
                 setPreview(data.data.slice(0, 5));
             }
-        } catch {
-            toast.error('Erreur lors de la prévisualisation');
+        } catch (error) {`r`n            console.error('API error:', error);`r`n            toast.error('Erreur lors de la prévisualisation');
         } finally {
             setLoading(false);
         }
@@ -83,9 +82,10 @@ export function ImportPage() {
             } else {
                 toast.error(data.error || 'Erreur lors de l\'import');
             }
-        } catch {
+        } catch (error) {
+            console.error('Import failed:', error);
             toast.error('Erreur lors de l\'import');
-        } finally {
+        } finally { } finally {
             setImporting(false);
         }
     }
