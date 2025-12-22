@@ -113,7 +113,8 @@ export function SequencesPage() {
             setNewSequence({ name: '', description: '' });
             toast.success('Séquence créée!');
             setEditingSequence(result.data);
-        } catch (error) {`r`n            console.error('API error:', error);`r`n            toast.error('Erreur lors de la création');
+        } catch {
+            toast.error('Erreur lors de la création');
         } finally {
             setCreating(false);
         }
@@ -125,7 +126,8 @@ export function SequencesPage() {
             await sequencesApi.delete(id);
             setSequences(prev => prev.filter(s => s.id !== id));
             toast.success('Séquence supprimée');
-        } catch (error) {`r`n            console.error('API error:', error);`r`n            toast.error('Erreur lors de la suppression');
+        } catch {
+            toast.error('Erreur lors de la suppression');
         }
     }
 
@@ -134,7 +136,8 @@ export function SequencesPage() {
             const result = await sequencesApi.changeStatus(id, status);
             setSequences(prev => prev.map(s => s.id === id ? result.data : s));
             toast.success(`Séquence ${status === 'active' ? 'activée' : 'mise en pause'}`);
-        } catch (error) {`r`n            console.error('API error:', error);`r`n            toast.error('Erreur lors du changement de statut');
+        } catch {
+            toast.error('Erreur lors du changement de statut');
         }
     }
 
@@ -417,7 +420,8 @@ function SequenceEditorDialog({
             const result = await sequencesApi.update(sequence.id, { name, description, steps });
             onSave(result.data);
             toast.success('Séquence mise à jour!');
-        } catch (error) {`r`n            console.error('API error:', error);`r`n            toast.error('Erreur lors de la sauvegarde');
+        } catch {
+            toast.error('Erreur lors de la sauvegarde');
         } finally {
             setSaving(false);
         }

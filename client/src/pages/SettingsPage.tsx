@@ -66,7 +66,8 @@ export function SettingsPage() {
             } else {
                 document.documentElement.classList.remove('dark');
             }
-        } catch (error) {`r`n            console.error('API error:', error);`r`n            toast.error('Erreur lors de la sauvegarde');
+        } catch {
+            toast.error('Erreur lors de la sauvegarde');
         } finally {
             setSaving(false);
         }

@@ -150,7 +150,8 @@ export function AutomationsPage() {
             } else {
                 toast.error(result.error || 'Erreur');
             }
-        } catch (error) {`r`n            console.error('API error:', error);`r`n            toast.error('Erreur lors de la création');
+        } catch {
+            toast.error('Erreur lors de la création');
         } finally {
             setCreating(false);
         }
@@ -164,8 +165,11 @@ export function AutomationsPage() {
                     a.id === id ? { ...a, active: result.data.active } : a
                 ));
                 toast.success(result.data.active ? 'Automation activée' : 'Automation désactivée');
+            } else {
+                toast.error(result.error || 'Erreur lors du toggle');
             }
-        } catch (error) {`r`n            console.error('API error:', error);`r`n            toast.error('Erreur lors du toggle');
+        } catch {
+            toast.error('Erreur lors du toggle');
         }
     }
 
@@ -177,8 +181,11 @@ export function AutomationsPage() {
             if (result.success) {
                 setAutomations(prev => prev.filter(a => a.id !== id));
                 toast.success('Automation supprimée');
+            } else {
+                toast.error(result.error || 'Erreur lors de la suppression');
             }
-        } catch (error) {`r`n            console.error('API error:', error);`r`n            toast.error('Erreur lors de la suppression');
+        } catch {
+            toast.error('Erreur lors de la suppression');
         }
     }
 

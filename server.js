@@ -701,6 +701,44 @@ app.delete('/api/messages/:id', (req, res) => {
     }
 });
 
+// Regenerate a single message
+app.post('/api/messages/:id/regenerate', async (req, res) => {
+    try {
+        const messages = loadData(MESSAGES_FILE);
+        const index = messages.findIndex(m => m.id === req.params.id);
+
+        if (index === -1) {
+            return res.status(404).json({ success: false, error: 'Message non trouvé' });
+        }
+
+        const message = messages[index];
+        const prospects = loadData(PROSPECTS_FILE);
+        const prospect = prospects.find(p => p.id === message.prospectId);
+
+        if (!prospect) {
+            return res.status(404).json({ success: false, error: 'Prospect non trouvé' });
+        }
+
+        // Regenerate with LLM
+        const { tone = 'professionnel', length = 'moyen' } = req.body;
+        const newContent = await generateMessage(prospect, { tone, length });
+
+        // Update message
+        messages[index] = {
+            ...message,
+            content: newContent,
+            regeneratedAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString()
+        };
+
+        saveData(MESSAGES_FILE, messages);
+        res.json({ success: true, data: messages[index] });
+
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
 // Clear all messages
 app.delete('/api/messages/clear', (req, res) => {
     try {

@@ -19,7 +19,8 @@ import {
     Copy,
     CheckCircle,
     Send,
-    Loader2
+    Loader2,
+    RefreshCw
 } from 'lucide-react';
 import { messagesApi, prospectsApi, type Message, type Prospect } from '@/api/client';
 import { toast } from 'sonner';
@@ -30,6 +31,7 @@ export function MessagesPage() {
     const [loading, setLoading] = useState(true);
     const [search, setSearch] = useState('');
     const [filter, setFilter] = useState('all');
+    const [regeneratingId, setRegeneratingId] = useState<string | null>(null);
 
     useEffect(() => {
         async function loadData() {
@@ -43,7 +45,8 @@ export function MessagesPage() {
                 const prospectsMap: Record<string, Prospect> = {};
                 (prospectsRes.data || []).forEach(p => { prospectsMap[p.id] = p; });
                 setProspects(prospectsMap);
-            } catch (error) {`r`n                console.error('API error:', error);`r`n                toast.error('Erreur lors du chargement');
+            } catch {
+                toast.error('Erreur lors du chargement');
             } finally {
                 setLoading(false);
             }
@@ -95,7 +98,21 @@ export function MessagesPage() {
             await messagesApi.update(id, { status: status as Message['status'] });
             setMessages(prev => prev.map(m => m.id === id ? { ...m, status: status as Message['status'] } : m));
             toast.success('Statut mis à jour');
-        } catch (error) {`r`n            console.error('API error:', error);`r`n            toast.error('Erreur lors de la mise à jour');
+        } catch {
+            toast.error('Erreur lors de la mise à jour');
+        }
+    }
+
+    async function regenerateMessage(id: string) {
+        setRegeneratingId(id);
+        try {
+            const result = await messagesApi.regenerate(id);
+            setMessages(prev => prev.map(m => m.id === id ? result.data : m));
+            toast.success('Message régénéré');
+        } catch {
+            toast.error('Erreur lors de la régénération. Vérifiez que Ollama est actif.');
+        } finally {
+            setRegeneratingId(null);
         }
     }
 
@@ -232,6 +249,16 @@ export function MessagesPage() {
                                             >
                                                 <Copy className="h-3 w-3" />
                                                 Copier
+                                            </Button>
+                                            <Button
+                                                variant="outline"
+                                                size="sm"
+                                                onClick={() => regenerateMessage(message.id)}
+                                                disabled={regeneratingId === message.id}
+                                                className="gap-1"
+                                            >
+                                                <RefreshCw className={`h-3 w-3 ${regeneratingId === message.id ? 'animate-spin' : ''}`} />
+                                                {regeneratingId === message.id ? 'Régénération...' : 'Régénérer'}
                                             </Button>
                                             <span className="text-xs text-muted-foreground">
                                                 {(message.content || message.message || '').length} caractères

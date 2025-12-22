@@ -57,6 +57,9 @@ export const messagesApi = {
     update: (id: string, data: Partial<Message>) => request(`/api/messages/${id}`, {
         method: 'PUT', body: data
     }),
+    regenerate: (id: string, options?: { tone?: string; length?: string }) => request<{ data: Message }>(`/api/messages/${id}/regenerate`, {
+        method: 'POST', body: options || {}
+    }),
 };
 
 // Campaigns

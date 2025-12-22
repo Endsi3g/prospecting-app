@@ -45,7 +45,8 @@ export function ListsPage() {
         try {
             const result = await listsApi.getAll();
             setLists(result.data || []);
-        } catch (error) {`r`n            console.error('API error:', error);`r`n            toast.error('Erreur lors du chargement');
+        } catch {
+            toast.error('Erreur lors du chargement');
         } finally {
             setLoading(false);
         }
@@ -64,7 +65,8 @@ export function ListsPage() {
             setDialogOpen(false);
             setNewList({ name: '', description: '' });
             toast.success('Liste créée');
-        } catch (error) {`r`n            console.error('API error:', error);`r`n            toast.error('Erreur lors de la création');
+        } catch {
+            toast.error('Erreur lors de la création');
         } finally {
             setCreating(false);
         }
@@ -76,7 +78,8 @@ export function ListsPage() {
             await listsApi.delete(id);
             setLists(prev => prev.filter(l => l.id !== id));
             toast.success('Liste supprimée');
-        } catch (error) {`r`n            console.error('API error:', error);`r`n            toast.error('Erreur lors de la suppression');
+        } catch {
+            toast.error('Erreur lors de la suppression');
         }
     }
 

@@ -44,7 +44,8 @@ import {
     Users,
     Plus,
     FolderPlus,
-    Loader2
+    Loader2,
+    Download
 } from 'lucide-react';
 import { prospectsApi, listsApi, type Prospect, type ProspectList } from '@/api/client';
 import { toast } from 'sonner';
@@ -73,7 +74,8 @@ export function ProspectsPage() {
             ]);
             setProspects(prospectsRes.data || []);
             setLists(listsRes.data || []);
-        } catch (error) {`r`n            console.error('API error:', error);`r`n            toast.error('Erreur lors du chargement des prospects');
+        } catch {
+            toast.error('Erreur lors du chargement des prospects');
         } finally {
             setLoading(false);
         }
@@ -122,7 +124,8 @@ export function ProspectsPage() {
             await prospectsApi.delete(id);
             setProspects(prev => prev.filter(p => p.id !== id));
             toast.success('Prospect supprimé');
-        } catch (error) {`r`n            console.error('API error:', error);`r`n            toast.error('Erreur lors de la suppression');
+        } catch {
+            toast.error('Erreur lors de la suppression');
         }
     }
 
@@ -135,7 +138,8 @@ export function ProspectsPage() {
             setProspects(prev => prev.filter(p => !selectedIds.has(p.id)));
             setSelectedIds(new Set());
             toast.success(`${selectedIds.size} prospect(s) supprimé(s)`);
-        } catch (error) {`r`n            console.error('API error:', error);`r`n            toast.error('Erreur lors de la suppression');
+        } catch {
+            toast.error('Erreur lors de la suppression');
         }
     }
 
@@ -148,10 +152,50 @@ export function ProspectsPage() {
             setAssignDialogOpen(false);
             setSelectedIds(new Set());
             setSelectedListId('');
-        } catch (error) {`r`n            console.error('API error:', error);`r`n            toast.error('Erreur lors de l\'assignation');
+        } catch {
+            toast.error('Erreur lors de l\'assignation');
         } finally {
             setAssigning(false);
         }
+    }
+
+    async function handleExportSelected() {
+        if (selectedIds.size === 0) {
+            toast.error('Sélectionnez des prospects à exporter');
+            return;
+        }
+
+        try {
+            const selectedProspects = prospects.filter(p => selectedIds.has(p.id));
+            const csvContent = generateCSV(selectedProspects);
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `prospects_export_${new Date().toISOString().split('T')[0]}.csv`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+            toast.success(`${selectedIds.size} prospect(s) exporté(s)`);
+        } catch {
+            toast.error('Erreur lors de l\'export');
+        }
+    }
+
+    function generateCSV(data: Prospect[]): string {
+        const headers = ['Prénom', 'Nom', 'Email', 'Téléphone', 'Entreprise', 'Poste', 'Site Web', 'LinkedIn'];
+        const rows = data.map(p => [
+            p.prenom || '',
+            p.nom || '',
+            p.email || '',
+            p.telephone || '',
+            p.entreprise || '',
+            p.poste || '',
+            p.siteWeb || '',
+            p.linkedin || ''
+        ]);
+        return [headers.join(','), ...rows.map(r => r.map(v => `"${v}"`).join(','))].join('\n');
     }
 
     return (
@@ -224,6 +268,14 @@ export function ProspectsPage() {
                             </div>
                             {selectedIds.size > 0 && (
                                 <div className="flex gap-2">
+                                    <Button
+                                        variant="outline"
+                                        size="sm"
+                                        onClick={handleExportSelected}
+                                    >
+                                        <Download className="mr-2 h-4 w-4" />
+                                        Exporter ({selectedIds.size})
+                                    </Button>
                                     <Button
                                         variant="outline"
                                         size="sm"

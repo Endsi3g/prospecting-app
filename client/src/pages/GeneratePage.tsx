@@ -34,7 +34,8 @@ export function GeneratePage() {
                 ]);
                 setProspects(prospectsRes.data || []);
                 setTemplates(templatesRes.data || []);
-            } catch (error) {`r`n                console.error('API error:', error);`r`n                toast.error('Erreur lors du chargement des données');
+            } catch {
+            toast.error('Erreur lors du chargement des données');
             } finally {
                 setLoading(false);
             }
@@ -79,7 +80,8 @@ export function GeneratePage() {
 
             setGeneratedCount(result.data?.length || 0);
             toast.success(`${result.data?.length || 0} messages générés`);
-        } catch (error) {`r`n            console.error('API error:', error);`r`n            toast.error('Erreur lors de la génération');
+        } catch {
+            toast.error('Erreur lors de la génération');
         } finally {
             setGenerating(false);
         }

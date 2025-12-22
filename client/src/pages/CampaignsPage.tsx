@@ -48,7 +48,8 @@ export function CampaignsPage() {
         try {
             const result = await campaignsApi.getAll();
             setCampaigns(result.data || []);
-        } catch (error) {`r`n            console.error('API error:', error);`r`n            toast.error('Erreur lors du chargement');
+        } catch {
+            toast.error('Erreur lors du chargement');
         } finally {
             setLoading(false);
         }
@@ -67,7 +68,8 @@ export function CampaignsPage() {
             setDialogOpen(false);
             setNewCampaign({ name: '', description: '' });
             toast.success('Campagne créée');
-        } catch (error) {`r`n            console.error('API error:', error);`r`n            toast.error('Erreur lors de la création');
+        } catch {
+            toast.error('Erreur lors de la création');
         } finally {
             setCreating(false);
         }
@@ -78,7 +80,8 @@ export function CampaignsPage() {
             await campaignsApi.changeStatus(id, status);
             setCampaigns(prev => prev.map(c => c.id === id ? { ...c, status: status as Campaign['status'] } : c));
             toast.success('Statut mis à jour');
-        } catch (error) {`r`n            console.error('API error:', error);`r`n            toast.error('Erreur lors de la mise à jour');
+        } catch {
+            toast.error('Erreur lors de la mise à jour');
         }
     }
 
@@ -88,7 +91,8 @@ export function CampaignsPage() {
             await campaignsApi.delete(id);
             setCampaigns(prev => prev.filter(c => c.id !== id));
             toast.success('Campagne supprimée');
-        } catch (error) {`r`n            console.error('API error:', error);`r`n            toast.error('Erreur lors de la suppression');
+        } catch {
+            toast.error('Erreur lors de la suppression');
         }
     }
 

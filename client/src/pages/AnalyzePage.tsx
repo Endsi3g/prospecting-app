@@ -58,7 +58,8 @@ export function AnalyzePage() {
             } else {
                 throw new Error(data.error || 'Erreur d\'analyse');
             }
-        } catch (error) {`r`n            console.error('API error:', error);`r`n            toast.error('Erreur lors de l\'analyse. Vérifiez que Ollama est actif.');
+        } catch {
+            toast.error('Erreur lors de l\'analyse. Vérifiez que Ollama est actif.');
         } finally {
             setAnalyzing(false);
         }
