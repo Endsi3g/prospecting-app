@@ -60,6 +60,7 @@ export function ProspectsPage() {
     const [assignDialogOpen, setAssignDialogOpen] = useState(false);
     const [selectedListId, setSelectedListId] = useState<string>('');
     const [assigning, setAssigning] = useState(false);
+    const [sortConfig, setSortConfig] = useState<{ key: keyof Prospect | 'name'; direction: 'asc' | 'desc' } | null>(null);
 
     useEffect(() => {
         loadProspects();
@@ -91,6 +92,39 @@ export function ProspectsPage() {
         return name.split(' ').slice(0, 2).map(w => w[0] || '').join('').toUpperCase();
     }
 
+    const sortProspects = (items: Prospect[]) => {
+        if (!sortConfig) return items;
+
+        return [...items].sort((a, b) => {
+            let aValue: any = a[sortConfig.key as keyof Prospect];
+            let bValue: any = b[sortConfig.key as keyof Prospect];
+
+            if (sortConfig.key === 'name') {
+                aValue = getDisplayName(a).toLowerCase();
+                bValue = getDisplayName(b).toLowerCase();
+            } else if (typeof aValue === 'string') {
+                aValue = aValue.toLowerCase();
+                bValue = bValue ? bValue.toLowerCase() : '';
+            }
+
+            if (aValue < bValue) {
+                return sortConfig.direction === 'asc' ? -1 : 1;
+            }
+            if (aValue > bValue) {
+                return sortConfig.direction === 'asc' ? 1 : -1;
+            }
+            return 0;
+        });
+    };
+
+    const requestSort = (key: keyof Prospect | 'name') => {
+        let direction: 'asc' | 'desc' = 'asc';
+        if (sortConfig && sortConfig.key === key && sortConfig.direction === 'asc') {
+            direction = 'desc';
+        }
+        setSortConfig({ key, direction });
+    };
+
     const filteredProspects = prospects.filter(p => {
         const searchLower = search.toLowerCase();
         return (
@@ -99,6 +133,8 @@ export function ProspectsPage() {
             (p.entreprise?.toLowerCase() || '').includes(searchLower)
         );
     });
+
+    const sortedProspects = sortProspects(filteredProspects);
 
     const toggleSelect = (id: string) => {
         const newSet = new Set(selectedIds);
@@ -323,15 +359,23 @@ export function ProspectsPage() {
                                                     onCheckedChange={toggleSelectAll}
                                                 />
                                             </TableHead>
-                                            <TableHead>Nom</TableHead>
-                                            <TableHead className="hidden md:table-cell">Email</TableHead>
-                                            <TableHead>Entreprise</TableHead>
-                                            <TableHead className="hidden lg:table-cell">Poste</TableHead>
+                                            <TableHead className="cursor-pointer hover:bg-muted/50" onClick={() => requestSort('name')}>
+                                                Nom {sortConfig?.key === 'name' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
+                                            </TableHead>
+                                            <TableHead className="hidden md:table-cell cursor-pointer hover:bg-muted/50" onClick={() => requestSort('email')}>
+                                                Email {sortConfig?.key === 'email' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
+                                            </TableHead>
+                                            <TableHead className="cursor-pointer hover:bg-muted/50" onClick={() => requestSort('entreprise')}>
+                                                Entreprise {sortConfig?.key === 'entreprise' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
+                                            </TableHead>
+                                            <TableHead className="hidden lg:table-cell cursor-pointer hover:bg-muted/50" onClick={() => requestSort('poste')}>
+                                                Poste {sortConfig?.key === 'poste' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
+                                            </TableHead>
                                             <TableHead className="w-12"></TableHead>
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
-                                        {filteredProspects.map((prospect) => (
+                                        {sortedProspects.map((prospect) => (
                                             <TableRow
                                                 key={prospect.id}
                                                 className="cursor-pointer hover:bg-muted/50"

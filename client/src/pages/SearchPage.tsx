@@ -38,6 +38,8 @@ export function SearchPage() {
     const [searching, setSearching] = useState(false);
     const [importing, setImporting] = useState(false);
     const [isConfigured, setIsConfigured] = useState<boolean | null>(null);
+    const [hasWebsite, setHasWebsite] = useState(false);
+    const [maxReviews, setMaxReviews] = useState<number | ''>('');
 
     useEffect(() => {
         checkStatus();
@@ -62,8 +64,10 @@ export function SearchPage() {
         setResults([]);
         setSelected(new Set());
 
+
+
         try {
-            const response = await searchApi.googleMaps(query.trim(), location.trim(), maxResults);
+            const response = await searchApi.googleMaps(query.trim(), location.trim(), maxResults, hasWebsite, maxReviews === '' ? undefined : Number(maxReviews));
 
             if (response.success && response.data) {
                 setResults(response.data);
@@ -196,6 +200,28 @@ export function SearchPage() {
                                 onChange={(e) => setMaxResults(parseInt(e.target.value) || 20)}
                                 min={1}
                                 max={100}
+                            />
+                        </div>
+                        <div className="flex items-center space-x-2">
+                            <Checkbox
+                                id="has-website"
+                                checked={hasWebsite}
+                                onCheckedChange={(checked) => setHasWebsite(checked as boolean)}
+                            />
+                            <label
+                                htmlFor="has-website"
+                                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                            >
+                                Site Web
+                            </label>
+                        </div>
+                        <div className="w-32">
+                            <Input
+                                type="number"
+                                placeholder="Max Avis"
+                                value={maxReviews}
+                                onChange={(e) => setMaxReviews(e.target.value === '' ? '' : parseInt(e.target.value))}
+                                min={0}
                             />
                         </div>
                         <Button

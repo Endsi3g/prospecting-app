@@ -258,7 +258,7 @@ class ApifyService {
      * @param {number} maxResults - Maximum number of results (default: 20)
      * @returns {Object} List of businesses
      */
-    async searchGoogleMaps(searchQuery, location, maxResults = 20) {
+    async searchGoogleMaps(searchQuery, location, maxResults = 20, hasWebsite = false, maxReviews) {
         const initialized = await this.init();
         if (!initialized) {
             return { success: false, error: 'Apify API key not configured' };
@@ -286,7 +286,7 @@ class ApifyService {
             const { items } = await this.client.dataset(run.defaultDatasetId).listItems();
 
             // Transform results to prospect-friendly format
-            const prospects = (items || []).map(item => ({
+            let prospects = (items || []).map(item => ({
                 id: `gmap_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
                 name: item.title || item.name || '',
                 entreprise: item.title || item.name || '',
@@ -309,6 +309,14 @@ class ApifyService {
                 source: 'google_maps',
                 scrapedAt: new Date().toISOString()
             }));
+
+            if (hasWebsite) {
+                prospects = prospects.filter(p => !!p.website);
+            }
+
+            if (maxReviews !== undefined && maxReviews !== null) {
+                prospects = prospects.filter(p => p.reviewCount <= maxReviews);
+            }
 
             return {
                 success: true,

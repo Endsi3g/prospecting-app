@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // API client for backend communication
-const API_BASE = '';
+// In production, set VITE_API_URL to your backend URL (e.g., https://your-backend.onrender.com)
+const API_BASE = import.meta.env.VITE_API_URL || '';
 
 interface ApiOptions extends RequestInit {
     body?: any;
@@ -217,10 +218,10 @@ export const notificationsApi = {
 // Search
 export const searchApi = {
     search: (query: string) => request<{ data: SearchResults }>(`/api/search?q=${encodeURIComponent(query)}`),
-    googleMaps: (query: string, location: string, maxResults = 20) =>
+    googleMaps: (query: string, location: string, maxResults = 20, hasWebsite = false, maxReviews?: number) =>
         request<GoogleMapsSearchResponse>('/api/search/google-maps', {
             method: 'POST',
-            body: { query, location, maxResults }
+            body: { query, location, maxResults, hasWebsite, maxReviews }
         }),
     importResults: (results: GoogleMapsResult[]) =>
         request<{ success: boolean; data: Prospect[]; imported: number }>('/api/search/import', {
@@ -233,6 +234,37 @@ export const searchApi = {
 // LLM
 export const llmApi = {
     test: () => request('/api/llm/test'),
+};
+
+// Tasks
+export const tasksApi = {
+    getAll: () => request<{ data: Task[]; count: number }>('/api/tasks'),
+    getToday: () => request<{ data: Task[]; count: number }>('/api/tasks/today'),
+    getById: (id: string) => request<{ data: Task }>(`/api/tasks/${id}`),
+    create: (data: CreateTaskRequest) => request<{ data: Task }>('/api/tasks', {
+        method: 'POST', body: data
+    }),
+    update: (id: string, data: Partial<Task>) => request<{ data: Task }>(`/api/tasks/${id}`, {
+        method: 'PUT', body: data
+    }),
+    complete: (id: string) => request<{ data: Task }>(`/api/tasks/${id}/complete`, { method: 'PATCH' }),
+    uncomplete: (id: string) => request<{ data: Task }>(`/api/tasks/${id}/uncomplete`, { method: 'PATCH' }),
+    delete: (id: string) => request(`/api/tasks/${id}`, { method: 'DELETE' }),
+    clearCompleted: () => request<{ deleted: number }>('/api/tasks/completed', { method: 'DELETE' }),
+};
+
+// Sessions
+export const sessionsApi = {
+    getAll: () => request<{ data: Session[]; count: number }>('/api/sessions'),
+    getToday: () => request<{ data: Session[]; count: number }>('/api/sessions/today'),
+    create: (data: CreateSessionRequest) => request<{ data: Session }>('/api/sessions', {
+        method: 'POST', body: data
+    }),
+    update: (id: string, data: Partial<Session>) => request<{ data: Session }>(`/api/sessions/${id}`, {
+        method: 'PUT', body: data
+    }),
+    toggle: (id: string) => request<{ data: Session }>(`/api/sessions/${id}/toggle`, { method: 'PATCH' }),
+    delete: (id: string) => request(`/api/sessions/${id}`, { method: 'DELETE' }),
 };
 
 // Types
@@ -588,4 +620,58 @@ export interface CreateSequenceRequest {
     name: string;
     description?: string;
     steps?: Partial<SequenceStep>[];
+}
+
+// Task Types
+export type TaskType = 'call' | 'email' | 'followup' | 'linkedin' | 'meeting' | 'custom';
+export type TaskPriority = 'high' | 'medium' | 'low';
+
+export interface Task {
+    id: string;
+    title: string;
+    description?: string;
+    type: TaskType;
+    priority: TaskPriority;
+    prospectId?: string | null;
+    dueDate?: string | null;
+    dueTime?: string | null;
+    completed: boolean;
+    completedAt?: string | null;
+    createdAt: string;
+    updatedAt?: string;
+}
+
+export interface CreateTaskRequest {
+    title: string;
+    description?: string;
+    type?: TaskType;
+    priority?: TaskPriority;
+    prospectId?: string;
+    dueDate?: string;
+    dueTime?: string;
+}
+
+// Session Types
+export type DayOfWeek = 'sunday' | 'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday';
+
+export interface Session {
+    id: string;
+    name: string;
+    time: string;
+    duration: number;
+    days: DayOfWeek[];
+    taskTypes: TaskType[];
+    maxTasks: number;
+    enabled: boolean;
+    createdAt: string;
+    updatedAt?: string;
+}
+
+export interface CreateSessionRequest {
+    name: string;
+    time: string;
+    duration?: number;
+    days?: DayOfWeek[];
+    taskTypes?: TaskType[];
+    maxTasks?: number;
 }

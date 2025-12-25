@@ -18,7 +18,7 @@ const playwrightService = require('./services/playwrightService');
 const apifyService = require('./services/apifyService');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 4000;
 
 // Middleware
 app.use(cors());
@@ -68,6 +68,8 @@ const NOTIFICATIONS_FILE = path.join(DATA_DIR, 'notifications.json');
 const SEQUENCES_FILE = path.join(DATA_DIR, 'sequences.json');
 const PIPELINE_FILE = path.join(DATA_DIR, 'pipeline.json');
 const AUTOMATIONS_FILE = path.join(DATA_DIR, 'automations.json');
+const TASKS_FILE = path.join(DATA_DIR, 'tasks.json');
+const SESSIONS_FILE = path.join(DATA_DIR, 'sessions.json');
 
 // Ensure data directory exists
 if (!fs.existsSync(DATA_DIR)) {
@@ -500,7 +502,101 @@ app.post('/api/prospects/recalculate-scores', (req, res) => {
     }
 });
 
+// === RESEARCH ENDPOINTS ===
+
+// Research prospect using Playwright (free, local scraping)
+app.post('/api/prospects/:id/research/playwright', async (req, res) => {
+    try {
+        const prospects = loadData(PROSPECTS_FILE);
+        const index = prospects.findIndex(p => p.id === req.params.id);
+
+        if (index === -1) {
+            return res.status(404).json({ success: false, error: 'Prospect non trouvé' });
+        }
+
+        const prospect = prospects[index];
+
+        // Get online presence using Playwright service
+        const researchData = await playwrightService.getOnlinePresence({
+            name: `${prospect.prenom || ''} ${prospect.nom || ''}`.trim() || prospect.entreprise,
+            company: prospect.entreprise,
+            linkedin: prospect.linkedin,
+            website: prospect.siteWeb
+        });
+
+        // Save research data to prospect
+        prospects[index].playwrightResearch = {
+            ...researchData,
+            researchedAt: new Date().toISOString()
+        };
+        saveData(PROSPECTS_FILE, prospects);
+
+        res.json({
+            success: true,
+            data: {
+                prospect: { id: prospect.id, name: `${prospect.prenom || ''} ${prospect.nom || ''}`.trim() },
+                ...researchData,
+                scrapedAt: new Date().toISOString()
+            }
+        });
+    } catch (error) {
+        console.error('Playwright research error:', error);
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// Research prospect using Apify (advanced, requires API key)
+app.post('/api/prospects/:id/research/apify', async (req, res) => {
+    try {
+        // Check if Apify is configured
+        if (!apifyService.isConfigured()) {
+            return res.status(400).json({
+                success: false,
+                error: 'Apify n\'est pas configuré. Veuillez ajouter votre clé API dans les paramètres.'
+            });
+        }
+
+        const prospects = loadData(PROSPECTS_FILE);
+        const index = prospects.findIndex(p => p.id === req.params.id);
+
+        if (index === -1) {
+            return res.status(404).json({ success: false, error: 'Prospect non trouvé' });
+        }
+
+        const prospect = prospects[index];
+
+        // Research prospect using Apify actors
+        const researchData = await apifyService.researchProspect({
+            name: `${prospect.prenom || ''} ${prospect.nom || ''}`.trim() || prospect.entreprise,
+            company: prospect.entreprise,
+            linkedin: prospect.linkedin,
+            website: prospect.siteWeb
+        });
+
+        // Save research data to prospect
+        prospects[index].apifyResearch = {
+            ...researchData,
+            researchedAt: new Date().toISOString()
+        };
+        saveData(PROSPECTS_FILE, prospects);
+
+        res.json({
+            success: true,
+            data: {
+                prospect: { id: prospect.id, name: `${prospect.prenom || ''} ${prospect.nom || ''}`.trim() },
+                ...researchData,
+                researchedAt: new Date().toISOString(),
+                source: 'apify'
+            }
+        });
+    } catch (error) {
+        console.error('Apify research error:', error);
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
 // === COMPANY ANALYSIS ===
+
 
 // Analyze a company using LLM
 app.post('/api/company/analyze', async (req, res) => {
@@ -2300,45 +2396,6 @@ app.get('/api/research/apify/actors', async (req, res) => {
 
 // === PROSPECT LIST ASSIGNMENT ===
 
-// Assign prospect to a list
-app.post('/api/prospects/:id/assign-list', (req, res) => {
-    try {
-        const { listId } = req.body;
-        const prospects = loadData(PROSPECTS_FILE);
-        const lists = loadData(LISTS_FILE);
-
-        const prospectIndex = prospects.findIndex(p => p.id === req.params.id);
-        if (prospectIndex === -1) {
-            return res.status(404).json({ success: false, error: 'Prospect non trouvé' });
-        }
-
-        const listIndex = lists.findIndex(l => l.id === listId);
-        if (listIndex === -1) {
-            return res.status(404).json({ success: false, error: 'Liste non trouvée' });
-        }
-
-        // Update prospect with list ID
-        prospects[prospectIndex].listId = listId;
-        prospects[prospectIndex].updatedAt = new Date().toISOString();
-        saveData(PROSPECTS_FILE, prospects);
-
-        // Add prospect to list's prospectIds if not already there
-        if (!lists[listIndex].prospectIds) {
-            lists[listIndex].prospectIds = [];
-        }
-        if (!lists[listIndex].prospectIds.includes(req.params.id)) {
-            lists[listIndex].prospectIds.push(req.params.id);
-            lists[listIndex].updatedAt = new Date().toISOString();
-            saveData(LISTS_FILE, lists);
-        }
-
-        res.json({ success: true, data: prospects[prospectIndex] });
-
-    } catch (error) {
-        res.status(500).json({ success: false, error: error.message });
-    }
-});
-
 // Bulk assign prospects to a list
 app.post('/api/prospects/bulk/assign-list', (req, res) => {
     try {
@@ -2378,6 +2435,45 @@ app.post('/api/prospects/bulk/assign-list', (req, res) => {
         saveData(LISTS_FILE, lists);
 
         res.json({ success: true, assigned: assignedCount });
+
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// Assign prospect to a list
+app.post('/api/prospects/:id/assign-list', (req, res) => {
+    try {
+        const { listId } = req.body;
+        const prospects = loadData(PROSPECTS_FILE);
+        const lists = loadData(LISTS_FILE);
+
+        const prospectIndex = prospects.findIndex(p => p.id === req.params.id);
+        if (prospectIndex === -1) {
+            return res.status(404).json({ success: false, error: 'Prospect non trouvé' });
+        }
+
+        const listIndex = lists.findIndex(l => l.id === listId);
+        if (listIndex === -1) {
+            return res.status(404).json({ success: false, error: 'Liste non trouvée' });
+        }
+
+        // Update prospect with list ID
+        prospects[prospectIndex].listId = listId;
+        prospects[prospectIndex].updatedAt = new Date().toISOString();
+        saveData(PROSPECTS_FILE, prospects);
+
+        // Add prospect to list's prospectIds if not already there
+        if (!lists[listIndex].prospectIds) {
+            lists[listIndex].prospectIds = [];
+        }
+        if (!lists[listIndex].prospectIds.includes(req.params.id)) {
+            lists[listIndex].prospectIds.push(req.params.id);
+            lists[listIndex].updatedAt = new Date().toISOString();
+            saveData(LISTS_FILE, lists);
+        }
+
+        res.json({ success: true, data: prospects[prospectIndex] });
 
     } catch (error) {
         res.status(500).json({ success: false, error: error.message });
@@ -2474,7 +2570,7 @@ app.get('/api/prospects/overview', (req, res) => {
 // Search Google Maps for businesses
 app.post('/api/search/google-maps', async (req, res) => {
     try {
-        const { query, location, maxResults = 20 } = req.body;
+        const { query, location, maxResults = 20, hasWebsite = false, maxReviews } = req.body;
 
         if (!query || !location) {
             return res.status(400).json({
@@ -2483,7 +2579,7 @@ app.post('/api/search/google-maps', async (req, res) => {
             });
         }
 
-        const result = await apifyService.searchGoogleMaps(query, location, maxResults);
+        const result = await apifyService.searchGoogleMaps(query, location, maxResults, hasWebsite, maxReviews);
         res.json(result);
 
     } catch (error) {
@@ -3232,12 +3328,301 @@ app.post('/api/automations/:id/execute', async (req, res) => {
     }
 });
 
+// ============================================
+// TASKS API
+// ============================================
+
+// Get all tasks
+app.get('/api/tasks', (req, res) => {
+    try {
+        const tasks = loadData(TASKS_FILE);
+        res.json({ success: true, data: tasks, count: tasks.length });
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// Get tasks for today
+app.get('/api/tasks/today', (req, res) => {
+    try {
+        const tasks = loadData(TASKS_FILE);
+        const today = new Date().toISOString().split('T')[0];
+        const todayTasks = tasks.filter(t => {
+            if (t.completed) return false;
+            if (!t.dueDate) return true; // Tasks without due date show today
+            return t.dueDate <= today;
+        });
+        res.json({ success: true, data: todayTasks, count: todayTasks.length });
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// Create task
+app.post('/api/tasks', (req, res) => {
+    try {
+        const { title, description, type, priority, prospectId, dueDate, dueTime } = req.body;
+
+        if (!title) {
+            return res.status(400).json({ success: false, error: 'Titre requis' });
+        }
+
+        const tasks = loadData(TASKS_FILE);
+        const newTask = {
+            id: `task_${Date.now()}`,
+            title,
+            description: description || '',
+            type: type || 'custom',
+            priority: priority || 'medium',
+            prospectId: prospectId || null,
+            dueDate: dueDate || null,
+            dueTime: dueTime || null,
+            completed: false,
+            completedAt: null,
+            createdAt: new Date().toISOString()
+        };
+
+        tasks.push(newTask);
+        saveData(TASKS_FILE, tasks);
+
+        res.json({ success: true, data: newTask });
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// Get single task
+app.get('/api/tasks/:id', (req, res) => {
+    try {
+        const tasks = loadData(TASKS_FILE);
+        const task = tasks.find(t => t.id === req.params.id);
+
+        if (!task) {
+            return res.status(404).json({ success: false, error: 'Tâche non trouvée' });
+        }
+
+        res.json({ success: true, data: task });
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// Update task
+app.put('/api/tasks/:id', (req, res) => {
+    try {
+        const tasks = loadData(TASKS_FILE);
+        const index = tasks.findIndex(t => t.id === req.params.id);
+
+        if (index === -1) {
+            return res.status(404).json({ success: false, error: 'Tâche non trouvée' });
+        }
+
+        const updateFields = ['title', 'description', 'type', 'priority', 'prospectId', 'dueDate', 'dueTime'];
+        updateFields.forEach(field => {
+            if (req.body[field] !== undefined) {
+                tasks[index][field] = req.body[field];
+            }
+        });
+        tasks[index].updatedAt = new Date().toISOString();
+
+        saveData(TASKS_FILE, tasks);
+        res.json({ success: true, data: tasks[index] });
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// Mark task as complete
+app.patch('/api/tasks/:id/complete', (req, res) => {
+    try {
+        const tasks = loadData(TASKS_FILE);
+        const index = tasks.findIndex(t => t.id === req.params.id);
+
+        if (index === -1) {
+            return res.status(404).json({ success: false, error: 'Tâche non trouvée' });
+        }
+
+        tasks[index].completed = true;
+        tasks[index].completedAt = new Date().toISOString();
+
+        saveData(TASKS_FILE, tasks);
+        res.json({ success: true, data: tasks[index] });
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// Mark task as incomplete
+app.patch('/api/tasks/:id/uncomplete', (req, res) => {
+    try {
+        const tasks = loadData(TASKS_FILE);
+        const index = tasks.findIndex(t => t.id === req.params.id);
+
+        if (index === -1) {
+            return res.status(404).json({ success: false, error: 'Tâche non trouvée' });
+        }
+
+        tasks[index].completed = false;
+        tasks[index].completedAt = null;
+
+        saveData(TASKS_FILE, tasks);
+        res.json({ success: true, data: tasks[index] });
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// Delete task
+app.delete('/api/tasks/:id', (req, res) => {
+    try {
+        const tasks = loadData(TASKS_FILE);
+        const filtered = tasks.filter(t => t.id !== req.params.id);
+        saveData(TASKS_FILE, filtered);
+        res.json({ success: true });
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// Clear completed tasks
+app.delete('/api/tasks/completed', (req, res) => {
+    try {
+        const tasks = loadData(TASKS_FILE);
+        const filtered = tasks.filter(t => !t.completed);
+        saveData(TASKS_FILE, filtered);
+        res.json({ success: true, deleted: tasks.length - filtered.length });
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// ============================================
+// SESSIONS API
+// ============================================
+
+// Get all sessions
+app.get('/api/sessions', (req, res) => {
+    try {
+        const sessions = loadData(SESSIONS_FILE);
+        res.json({ success: true, data: sessions, count: sessions.length });
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// Get today's sessions
+app.get('/api/sessions/today', (req, res) => {
+    try {
+        const sessions = loadData(SESSIONS_FILE);
+        const today = new Date();
+        const dayNames = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+        const todayDay = dayNames[today.getDay()];
+
+        const todaySessions = sessions.filter(s =>
+            s.enabled && s.days.includes(todayDay)
+        );
+
+        res.json({ success: true, data: todaySessions, count: todaySessions.length });
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// Create session
+app.post('/api/sessions', (req, res) => {
+    try {
+        const { name, time, duration, days, taskTypes, maxTasks } = req.body;
+
+        if (!name || !time) {
+            return res.status(400).json({ success: false, error: 'Nom et heure requis' });
+        }
+
+        const sessions = loadData(SESSIONS_FILE);
+        const newSession = {
+            id: `session_${Date.now()}`,
+            name,
+            time,
+            duration: duration || 30,
+            days: days || ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'],
+            taskTypes: taskTypes || ['call', 'email', 'followup'],
+            maxTasks: maxTasks || 10,
+            enabled: true,
+            createdAt: new Date().toISOString()
+        };
+
+        sessions.push(newSession);
+        saveData(SESSIONS_FILE, sessions);
+
+        res.json({ success: true, data: newSession });
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// Update session
+app.put('/api/sessions/:id', (req, res) => {
+    try {
+        const sessions = loadData(SESSIONS_FILE);
+        const index = sessions.findIndex(s => s.id === req.params.id);
+
+        if (index === -1) {
+            return res.status(404).json({ success: false, error: 'Session non trouvée' });
+        }
+
+        const updateFields = ['name', 'time', 'duration', 'days', 'taskTypes', 'maxTasks', 'enabled'];
+        updateFields.forEach(field => {
+            if (req.body[field] !== undefined) {
+                sessions[index][field] = req.body[field];
+            }
+        });
+        sessions[index].updatedAt = new Date().toISOString();
+
+        saveData(SESSIONS_FILE, sessions);
+        res.json({ success: true, data: sessions[index] });
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// Toggle session enabled/disabled
+app.patch('/api/sessions/:id/toggle', (req, res) => {
+    try {
+        const sessions = loadData(SESSIONS_FILE);
+        const index = sessions.findIndex(s => s.id === req.params.id);
+
+        if (index === -1) {
+            return res.status(404).json({ success: false, error: 'Session non trouvée' });
+        }
+
+        sessions[index].enabled = !sessions[index].enabled;
+        sessions[index].updatedAt = new Date().toISOString();
+
+        saveData(SESSIONS_FILE, sessions);
+        res.json({ success: true, data: sessions[index] });
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// Delete session
+app.delete('/api/sessions/:id', (req, res) => {
+    try {
+        const sessions = loadData(SESSIONS_FILE);
+        const filtered = sessions.filter(s => s.id !== req.params.id);
+        saveData(SESSIONS_FILE, filtered);
+        res.json({ success: true });
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
 // SPA fallback - serve index.html for React Router
 app.get('*', (req, res) => {
     // Don't redirect API calls
     if (req.path.startsWith('/api')) {
         return res.status(404).json({ error: 'Endpoint not found' });
     }
+
     const indexPath = path.join(staticPath, 'index.html');
     if (fs.existsSync(indexPath)) {
         res.sendFile(indexPath);

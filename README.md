@@ -67,21 +67,21 @@ Créez un fichier `.env` à la racine:
 
 ```env
 GEMINI_API_KEY=votre_clé_gemini
-PORT=3000
+PORT=4000
 ```
 
 ## 🏃 Lancement
 
 ```bash
-# Terminal 1 - Backend (port 3000)
+# Terminal 1 - Backend (port 4000)
 node server.js
 
-# Terminal 2 - Frontend (port 5173)
+# Terminal 2 - Frontend (port 4001)
 cd client
 npm run dev
 ```
 
-Ouvrez <http://localhost:5173>
+Ouvrez <http://localhost:4001>
 
 ## 🏗️ Stack Technique
 

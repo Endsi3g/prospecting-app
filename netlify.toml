@@ -1,0 +1,18 @@
+[build]
+  base = "client"
+  command = "npm install && npm run build"
+  publish = "dist"
+
+# SPA fallback - redirect all routes to index.html
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Optional: API proxy (only works if backend is deployed and URL is set)
+# Uncomment and update when backend is deployed
+# [[redirects]]
+#   from = "/api/*"
+#   to = "https://your-backend-url.com/api/:splat"
+#   status = 200
+#   force = true

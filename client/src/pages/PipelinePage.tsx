@@ -84,6 +84,11 @@ export function PipelinePage() {
         }
     }
 
+    function getDisplayName(p: Prospect) {
+        const fullName = `${p.prenom || ''} ${p.nom || ''}`.trim();
+        return fullName || p.entreprise || 'Sans nom';
+    }
+
     async function handleDrop(prospectId: string, newStageId: string) {
         // Optimistic update
         setStages(prevStages => {
@@ -251,7 +256,7 @@ export function PipelinePage() {
                                                             className="font-medium text-sm truncate hover:text-violet-600 cursor-pointer"
                                                             onClick={() => navigate(`/prospects/${prospect.id}`)}
                                                         >
-                                                            {prospect.fullName || 'Sans nom'}
+                                                            {getDisplayName(prospect)}
                                                         </div>
                                                         {prospect.company && (
                                                             <div className="flex items-center gap-1 text-xs text-muted-foreground truncate">

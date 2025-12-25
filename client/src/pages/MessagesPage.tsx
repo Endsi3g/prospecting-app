@@ -89,9 +89,28 @@ export function MessagesPage() {
     });
 
     async function copyMessage(content: string) {
-        await navigator.clipboard.writeText(content);
-        toast.success('Message copié');
+        try {
+            if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+                await navigator.clipboard.writeText(content);
+            } else {
+                // Fallback for non-secure contexts (HTTP)
+                const textArea = document.createElement('textarea');
+                textArea.value = content;
+                textArea.style.position = 'fixed';
+                textArea.style.left = '-9999px';
+                textArea.style.top = '-9999px';
+                document.body.appendChild(textArea);
+                textArea.focus();
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+            }
+            toast.success('Message copié');
+        } catch {
+            toast.error('Impossible de copier le message');
+        }
     }
+
 
     async function updateStatus(id: string, status: string) {
         try {
