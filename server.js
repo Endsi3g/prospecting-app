@@ -158,6 +158,49 @@ app.post('/api/prospects/import', upload.single('file'), async (req, res) => {
     }
 });
 
+// Batch create prospects (from JSON)
+app.post('/api/prospects/batch', async (req, res) => {
+    try {
+        const { prospects } = req.body;
+
+        if (!prospects || !Array.isArray(prospects)) {
+            return res.status(400).json({ success: false, error: 'Liste de prospects requise' });
+        }
+
+        // Validate and format
+        const newProspects = prospects.map((p, index) => ({
+            id: `prospect_${Date.now()}_${index}_${Math.random().toString(36).substr(2, 5)}`,
+            prenom: p.prenom || '',
+            nom: p.nom || '',
+            email: p.email || '',
+            telephone: p.telephone || '',
+            entreprise: p.entreprise || '',
+            poste: p.poste || '',
+            siteWeb: p.siteWeb || '',
+            linkedin: p.linkedin || '',
+            adresse: p.adresse || '',
+            notes: p.notes || '',
+            source: p.source || 'api_batch',
+            createdAt: new Date().toISOString(),
+            status: 'new',
+            interestScore: p.interestScore || 0
+        }));
+
+        const existingProspects = loadData(PROSPECTS_FILE);
+        const allProspects = [...existingProspects, ...newProspects];
+        saveData(PROSPECTS_FILE, allProspects);
+
+        res.json({
+            success: true,
+            imported: newProspects.length,
+            total: allProspects.length,
+            data: newProspects
+        });
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
 // Preview prospects from CSV
 app.post('/api/prospects/preview', upload.single('file'), async (req, res) => {
     try {
@@ -594,6 +637,78 @@ app.post('/api/prospects/:id/research/apify', async (req, res) => {
         });
     } catch (error) {
         console.error('Apify research error:', error);
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+
+// Get available Apify actors
+app.get('/api/apify/actors', (req, res) => {
+    try {
+        const actors = apifyService.getAvailableActors();
+        res.json({ success: true, data: actors });
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+// Run a specific Apify actor
+app.post('/api/apify/run', async (req, res) => {
+    try {
+        const { actorId, input } = req.body;
+
+        if (!actorId) {
+            return res.status(400).json({ success: false, error: 'Actor ID requis' });
+        }
+
+        // Map actor IDs to service methods
+        const actorMap = {
+            'tiktok-scraper': 'scrapeTikTok',
+            'instagram-scraper': 'scrapeInstagram',
+            'youtube-scraper': 'scrapeYouTube',
+            'facebook-posts-scraper': 'scrapeFacebook',
+            'twitter-scraper-lite': 'scrapeTwitter',
+            'amazon-product-scraper': 'scrapeAmazon',
+            'indeed-scraper': 'scrapeIndeed',
+            'google-maps-scraper': 'searchGoogleMaps', // Note: input params might need adjustment for this one
+            'linkedin-profile-scraper': 'scrapeLinkedInProfile',
+            'google-search-scraper': 'searchGoogle',
+            'website-content-crawler': 'crawlWebsite',
+            'contact-info-scraper': 'scrapeContactInfo'
+        };
+
+        const methodName = actorMap[actorId];
+
+        if (!methodName || typeof apifyService[methodName] !== 'function') {
+            return res.status(400).json({ success: false, error: 'Acteur non supporté ou méthode manquante' });
+        }
+
+        // Call the service method
+        // Note: This assumes the service methods accept a single argument (query/url) or an object
+        // We might need to standardize service methods to accept an input object if we want a truly generic runner
+        // For now, we'll pass the 'input' from the body directly if it's a single value, or unpack it?
+        // Most simple scrapers above take a single string (query/url).
+        // Let's assume 'input' in body is the string query/url for now for the simple ones.
+
+        let result;
+        if (actorId === 'google-maps-scraper') {
+            // Special case for maps which takes multiple args in current impl
+            // apifyService.searchGoogleMaps(searchQuery, location, maxResults, hasWebsite, maxReviews)
+            const { searchQuery, location, maxResults } = input || {};
+            result = await apifyService.searchGoogleMaps(searchQuery, location, maxResults);
+        } else if (actorId === 'indeed-scraper') {
+            // Indeed takes query and location
+            const { query, location } = input || {};
+            result = await apifyService.scrapeIndeed(query, location);
+        } else {
+            // Single argument scanners
+            result = await apifyService[methodName](input?.query || input?.url || input);
+        }
+
+        res.json(result);
+
+    } catch (error) {
+        console.error('Apify run error:', error);
         res.status(500).json({ success: false, error: error.message });
     }
 });

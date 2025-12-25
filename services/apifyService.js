@@ -192,6 +192,155 @@ class ApifyService {
     }
 
     /**
+     * Run TikTok Scraper
+     * @param {string} query - Hashtag or search term
+     * @returns {Object} Scraped data
+     */
+    async scrapeTikTok(query) {
+        const initialized = await this.init();
+        if (!initialized) return { success: false, error: 'Apify API key not configured' };
+
+        try {
+            const run = await this.client.actor('clockworks/tiktok-scraper').call({
+                searchQueries: [query],
+                resultsPerPage: 20
+            });
+            const { items } = await this.client.dataset(run.defaultDatasetId).listItems();
+            return { success: true, data: items, source: 'apify', actorId: 'tiktok-scraper', runId: run.id };
+        } catch (error) {
+            return { success: false, error: error.message };
+        }
+    }
+
+    /**
+     * Run Instagram Scraper
+     * @param {string} query - Hashtag or search term
+     * @returns {Object} Scraped data
+     */
+    async scrapeInstagram(query) {
+        const initialized = await this.init();
+        if (!initialized) return { success: false, error: 'Apify API key not configured' };
+
+        try {
+            const run = await this.client.actor('apify/instagram-scraper').call({
+                search: query,
+                resultsLimit: 20
+            });
+            const { items } = await this.client.dataset(run.defaultDatasetId).listItems();
+            return { success: true, data: items, source: 'apify', actorId: 'instagram-scraper', runId: run.id };
+        } catch (error) {
+            return { success: false, error: error.message };
+        }
+    }
+
+    /**
+     * Run YouTube Scraper
+     * @param {string} query - Search term
+     * @returns {Object} Scraped data
+     */
+    async scrapeYouTube(query) {
+        const initialized = await this.init();
+        if (!initialized) return { success: false, error: 'Apify API key not configured' };
+
+        try {
+            const run = await this.client.actor('streamers/youtube-scraper').call({
+                searchKeywords: query,
+                maxResults: 20
+            });
+            const { items } = await this.client.dataset(run.defaultDatasetId).listItems();
+            return { success: true, data: items, source: 'apify', actorId: 'youtube-scraper', runId: run.id };
+        } catch (error) {
+            return { success: false, error: error.message };
+        }
+    }
+
+    /**
+     * Run Facebook Posts Scraper
+     * @param {string} pageUrl - Facebook Page URL
+     * @returns {Object} Scraped data
+     */
+    async scrapeFacebook(pageUrl) {
+        const initialized = await this.init();
+        if (!initialized) return { success: false, error: 'Apify API key not configured' };
+
+        try {
+            const run = await this.client.actor('apify/facebook-posts-scraper').call({
+                startUrls: [{ url: pageUrl }],
+                resultsLimit: 20
+            });
+            const { items } = await this.client.dataset(run.defaultDatasetId).listItems();
+            return { success: true, data: items, source: 'apify', actorId: 'facebook-posts-scraper', runId: run.id };
+        } catch (error) {
+            return { success: false, error: error.message };
+        }
+    }
+
+    /**
+     * Run Twitter/X Scraper
+     * @param {string} query - Search term
+     * @returns {Object} Scraped data
+     */
+    async scrapeTwitter(query) {
+        const initialized = await this.init();
+        if (!initialized) return { success: false, error: 'Apify API key not configured' };
+
+        try {
+            const run = await this.client.actor('apify/twitter-scraper-lite').call({
+                searchTerms: [query],
+                tweetsDesired: 20
+            });
+            const { items } = await this.client.dataset(run.defaultDatasetId).listItems();
+            return { success: true, data: items, source: 'apify', actorId: 'twitter-scraper-lite', runId: run.id };
+        } catch (error) {
+            return { success: false, error: error.message };
+        }
+    }
+
+    /**
+     * Run Amazon Product Scraper
+     * @param {string} query - Search term
+     * @returns {Object} Scraped data
+     */
+    async scrapeAmazon(query) {
+        const initialized = await this.init();
+        if (!initialized) return { success: false, error: 'Apify API key not configured' };
+
+        try {
+            const run = await this.client.actor('junglee/amazon-product-scraper').call({
+                q: query,
+                maxItems: 20
+            });
+            const { items } = await this.client.dataset(run.defaultDatasetId).listItems();
+            return { success: true, data: items, source: 'apify', actorId: 'amazon-product-scraper', runId: run.id };
+        } catch (error) {
+            return { success: false, error: error.message };
+        }
+    }
+
+    /**
+     * Run Indeed Scraper
+     * @param {string} query - Job title or keyword
+     * @param {string} location - Location
+     * @returns {Object} Scraped data
+     */
+    async scrapeIndeed(query, location) {
+        const initialized = await this.init();
+        if (!initialized) return { success: false, error: 'Apify API key not configured' };
+
+        try {
+            const run = await this.client.actor('misceras/indeed-scraper').call({
+                query: query,
+                location: location,
+                max: 20
+            });
+            const { items } = await this.client.dataset(run.defaultDatasetId).listItems();
+            return { success: true, data: items, source: 'apify', actorId: 'indeed-scraper', runId: run.id };
+        } catch (error) {
+            return { success: false, error: error.message };
+        }
+    }
+
+    /**
      * Get comprehensive data for a prospect using Apify actors
      * @param {Object} prospect - Prospect object
      * @returns {Object} Aggregated data from multiple sources
@@ -361,6 +510,41 @@ class ApifyService {
                 id: 'contact-info-scraper',
                 name: 'Contact Info Scraper',
                 description: 'Extract emails, phones, social links'
+            },
+            {
+                id: 'tiktok-scraper',
+                name: 'TikTok Scraper',
+                description: 'Extract data from TikTok videos and hashtags'
+            },
+            {
+                id: 'instagram-scraper',
+                name: 'Instagram Scraper',
+                description: 'Scrape Instagram posts and profiles'
+            },
+            {
+                id: 'youtube-scraper',
+                name: 'YouTube Scraper',
+                description: 'YouTube crawler and video scraper'
+            },
+            {
+                id: 'facebook-posts-scraper',
+                name: 'Facebook Posts Scraper',
+                description: 'Extract data from Facebook posts'
+            },
+            {
+                id: 'twitter-scraper-lite',
+                name: 'Twitter Scraper',
+                description: 'Scrape Twitter/X data'
+            },
+            {
+                id: 'amazon-product-scraper',
+                name: 'Amazon Product Scraper',
+                description: 'Collect data from Amazon'
+            },
+            {
+                id: 'indeed-scraper',
+                name: 'Indeed Job Scraper',
+                description: 'Scrape jobs from Indeed'
             }
         ];
     }

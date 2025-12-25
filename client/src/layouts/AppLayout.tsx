@@ -58,6 +58,7 @@ const actionsItems = [
     { label: 'Générer', href: '/generate', icon: Sparkles },
     { label: 'Messages', href: '/messages', icon: Mail },
     { label: 'Exporter', href: '/export', icon: Download },
+    { label: 'Outils Apify', href: '/tools/apify', icon: Search },
 ];
 
 const campaignItems = [

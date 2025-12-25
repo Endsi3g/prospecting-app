@@ -19,6 +19,7 @@ import { SearchPage } from '@/pages/SearchPage';
 import { SequencesPage } from '@/pages/SequencesPage';
 import { PipelinePage } from '@/pages/PipelinePage';
 import { AutomationsPage } from '@/pages/AutomationsPage';
+import { ApifyActorsPage } from '@/pages/ApifyActorsPage';
 import { CommandPalette } from '@/components/CommandPalette';
 import { useCommandPalette } from '@/hooks/useCommandPalette';
 
@@ -51,6 +52,7 @@ function AppContent() {
           <Route path="/sequences" element={<SequencesPage />} />
           <Route path="/pipeline" element={<PipelinePage />} />
           <Route path="/automations" element={<AutomationsPage />} />
+          <Route path="/tools/apify" element={<ApifyActorsPage />} />
           <Route path="/templates" element={<TemplatesPage />} />
           <Route path="/analyze" element={<AnalyzePage />} />
           <Route path="/settings" element={<SettingsPage />} />
