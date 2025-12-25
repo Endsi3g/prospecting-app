@@ -158,7 +158,7 @@ app.post('/api/prospects/import', upload.single('file'), async (req, res) => {
     }
 });
 
-// Preview CSV without importing
+// Preview prospects from CSV
 app.post('/api/prospects/preview', upload.single('file'), async (req, res) => {
     try {
         if (!req.file) {
@@ -168,18 +168,21 @@ app.post('/api/prospects/preview', upload.single('file'), async (req, res) => {
         const csvContent = fs.readFileSync(req.file.path, 'utf8');
         const parsedData = await parseCSV(csvContent);
 
+        // Return first 5 rows for preview
+        const previewData = parsedData.slice(0, 5);
+
         // Cleanup uploaded file
         fs.unlinkSync(req.file.path);
 
-        res.json({
-            success: true,
-            count: parsedData.length,
-            data: parsedData.slice(0, 50) // Preview max 50 rows
-        });
+        res.json({ success: true, data: previewData });
     } catch (error) {
+        if (req.file && fs.existsSync(req.file.path)) {
+            fs.unlinkSync(req.file.path);
+        }
         res.status(500).json({ success: false, error: error.message });
     }
 });
+
 
 // Delete prospect
 app.delete('/api/prospects/:id', (req, res) => {
