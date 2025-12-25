@@ -92,6 +92,11 @@ function saveData(filepath, data) {
 // API Routes
 // ============================================
 
+// === HEALTH CHECK ===
+app.get('/api/health', (req, res) => {
+    res.json({ status: 'ok', timestamp: new Date().toISOString() });
+});
+
 // === PROSPECTS ===
 
 // Get all prospects
