@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: uprising-backend
+    env: docker
+    dockerfilePath: ./backend/Dockerfile
+    plan: free
+    region: ohio
+    healthCheckPath: /docs
+    envVars:
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_SERVICE_KEY
+        sync: false
+      - key: RESEND_API_KEY
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false
