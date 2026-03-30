@@ -2,13 +2,10 @@
 echo Starting Uprising Sales OS...
 echo ==============================================
 
-:: Start Supabase logically (Assuming local instance)
-echo [1] Starting Database (Supabase)...
-cd backend
-start cmd /k "supabase start"
-
-:: Wait for a few seconds to let Supabase start up
-timeout /t 5 /nobreak >nul
+:: ── Services ──────────────────────────────────
+:: No local Supabase start (Using Remote Cloud)
+echo [1] Checking Connectivity...
+timeout /t 1 /nobreak >nul
 
 :: Start Backend
 echo [2] Starting Backend (FastAPI)...
@@ -23,6 +20,6 @@ echo ==============================================
 echo All services are starting in separate windows.
 echo Frontend: http://localhost:3000
 echo Backend API: http://localhost:8000/docs
-echo Supabase Studio: http://localhost:54323
+echo Supabase Project: https://supabase.com/dashboard
 echo ==============================================
 cd ..
