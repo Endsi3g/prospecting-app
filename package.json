@@ -1,4 +1,7 @@
 {
+  "scripts": {
+    "dev": "start.bat"
+  },
   "dependencies": {
     "convex": "^1.34.1"
   },

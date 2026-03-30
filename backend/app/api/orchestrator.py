@@ -1,63 +1,115 @@
 import os
+import json
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
-from typing import Optional, List
+from typing import Optional, List, Dict, Any
 from app.services.scraper import scrape_company_website
-from app.services.ollama import ollama_service
+from app.services.ai_gateway import ai_gateway
 
 router = APIRouter()
 
-SKILLS_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(__file__)))), ".agents", "skills")
-
 class OrchestratorRequest(BaseModel):
-    skill_id: str
-    target_url: Optional[str] = None
     query: str
+    target_url: Optional[str] = None
+    context: Optional[str] = None
+
+class TeamOrchestrator:
+    """
+    A multi-agent team orchestrator demonstrating independent AI personas
+    working sequentially to resolve complex prospecting tasks.
+    Powered natively by Ollama with Groq API failover.
+    """
+    def __init__(self, goal: str, context: str):
+        self.goal = goal
+        self.context = context
+        self.memory = []
+
+    async def execute(self) -> Dict[str, Any]:
+        # Agent 1: The Researcher (Parses the URL and the initial context)
+        researcher_report = await self.run_agent(
+            role="Lead Researcher",
+            system="Tu es un chercheur expert en Market Intelligence B2B. Extrais les faits, les signaux d'intention et la proposition de valeur brute à partir du contexte fourni.",
+            task=f"Analyse ce contexte et fournis un rapport de recherche très concis (bullet points) :\n{self.context}"
+        )
+        self.memory.append({"agent": "Researcher", "output": researcher_report})
+        
+        # Agent 2: The Strategist (Formulates the psychological angle)
+        strategist_brief = await self.run_agent(
+            role="Sales Strategist",
+            system="Tu es un stratège commercial expert en psychologie d'achat (Anchoring, Loss Aversion, Status Quo Bias).",
+            task=f"Goal: {self.goal}\nResearch: {researcher_report}\nDefine a conversion strategy. Focus on the cost of inaction (Loss Aversion) or the inefficiency of the current status quo."
+        )
+        self.memory.append({"agent": "Strategist", "output": strategist_brief})
+        
+        # Agent 3: The Copywriter (Structured Output)
+        schema = {
+            "type": "object",
+            "properties": {
+                "subject": {"type": "string"},
+                "body": {"type": "string"},
+                "critique": {"type": "string"}
+            },
+            "required": ["subject", "body"]
+        }
+        
+        writer_response = await self.run_agent(
+            role="Elite Copywriter",
+            system="Tu es un copywriter B2B d'élite. Tu écris des emails courts, directs, sans jargon ('J'espère que vous allez bien' est interdit). Retourne uniquement du JSON.",
+            task=f"Strategy: {strategist_brief}\nResearch: {researcher_report}\nGoal: {self.goal}\nDraft a hyper-personalized email in French.",
+            response_format=schema
+        )
+        
+        self.memory.append({"agent": "Copywriter", "output": writer_response})
+        return writer_response
+
+
+    async def run_agent(self, role: str, system: str, task: str, response_format: Optional[Dict] = None) -> Any:
+        print(f"🤖 [Orchestrator] Activating Agent: {role}")
+        
+        result = await ai_gateway.generate(
+            prompt=task,
+            system_prompt=system,
+            response_format=response_format,
+            temperature=0.6,
+        )
+
+        # Standard check for structured vs raw text
+        if response_format:
+            return result.get("parsed", {})
+        
+        content = result.get("parsed", {}).get("raw_text", "")
+
+        if not content:
+            # Fallback if parsed as dict accidentally
+            content = str(result.get("parsed", ""))
+            
+        print(f"✅ [{role}] Completed task.")
+        return content
 
 @router.post("/chat")
 async def run_orchestrator(req: OrchestratorRequest):
     """
-    The Core Marketing Brain.
-    Takes a Skill ID, loads its Markdown instructions, crawls the Target URL (if provided),
-    and executes the logic via the LLM to return a professional Marketing Audit/Copy.
+    The Master Entrypoint for the Team of Agents.
+    Triggers a multi-step execution loop relying on local Ollama + Groq failover.
     """
+    crawled_context = req.context or ""
     
-    # 1. Load the Skill Markdown
-    skill_path = os.path.join(SKILLS_DIR, req.skill_id, "SKILL.md")
-    if not os.path.exists(skill_path):
-        raise HTTPException(status_code=404, detail=f"Skill '{req.skill_id}' not found.")
-        
-    with open(skill_path, "r", encoding="utf-8") as f:
-        skill_content = f.read()
-        
-    # 2. Extract context via Deep Crawl4AI (If URL provided)
-    crawled_context = ""
     if req.target_url and req.target_url.startswith("http"):
-        print(f"🕷️ Crawl4AI Orchestrator running on: {req.target_url}")
-        crawled_context = await scrape_company_website(req.target_url)
+        print(f"🕷️ Appending Deep Crawl context from: {req.target_url}")
+        crawled_context += "\\n\\n--- SITE CRAWLE ---\\n"
+        crawled_context += await scrape_company_website(req.target_url)
         
-    # 3. Formulate the Ultimate Request
-    system_prompt = f"""Tu es une Intelligence Marketing de niveau Expert.
-Tu dois AGIR EXACTEMENT selon ces instructions officielles de compétence (Marketing Skill) :
-
---- INSTRUCTIONS DU SKILL ({req.skill_id.upper()}) ---
-{skill_content}
---- FIN DES INSTRUCTIONS ---
-
-Ne fais aucun commentaire sur les instructions elles-mêmes.
-Réponds en Markdown structuré et professionnel. Parle en français.
-"""
-
-    user_prompt = ""
-    if crawled_context:
-        user_prompt += f"--- DONNÉES EXTRAITES DU SITE (CRAWL4AI DEEP SEARCH) ---\n{crawled_context}\n\n"
-        
-    user_prompt += f"Tâche de l'utilisateur : {req.query}"
-
-    # 4. Generate via LLM
+    orchestrator = TeamOrchestrator(goal=req.query, context=crawled_context)
+    
     try:
-        final_prompt = f"{system_prompt}\n\n{user_prompt}\n\nRéponse :"
-        response = await ollama_service.generate(model="llama3", prompt=final_prompt)
-        return {"status": "success", "reply": response["result"]}
+        execution_result = await orchestrator.execute()
+        
+        return {
+            "status": "success", 
+            "reply": execution_result.get("body", execution_result) if isinstance(execution_result, dict) else execution_result,
+            "subject": execution_result.get("subject", "") if isinstance(execution_result, dict) else "",
+            "memory": orchestrator.memory
+        }
+
     except Exception as e:
-        return {"status": "error", "reply": f"⚠️ Erreur LLM lors de l'exécution de l'Orchestrateur: {str(e)}"}
+        return {"status": "error", "reply": f"⚠️ Multi-Agent Framework Failure: {str(e)}"}

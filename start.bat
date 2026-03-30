@@ -9,12 +9,11 @@ timeout /t 1 /nobreak >nul
 
 :: Start Backend
 echo [2] Starting Backend (FastAPI)...
-start cmd /k "cd .venv\Scripts & activate.bat & cd ..\.. & uvicorn app.main:app --reload --port 8000"
+start cmd /k "cd backend & .venv\Scripts\activate.bat & uvicorn app.main:app --reload --port 8000"
 
 :: Start Frontend
 echo [3] Starting Frontend (Next.js)...
-cd ..\frontend
-start cmd /k "npm run dev"
+start cmd /k "cd frontend & npm run dev"
 
 echo ==============================================
 echo All services are starting in separate windows.

@@ -18,6 +18,8 @@ from app.api.settings import router as settings_router
 from app.api.analytics import router as analytics_router
 from app.api.skills import router as skills_router
 from app.api.orchestrator import router as orchestrator_router
+from app.api.webhooks import router as webhooks_router
+
 
 
 @asynccontextmanager
@@ -68,3 +70,5 @@ app.include_router(settings_router, prefix="/api/settings", tags=["Settings"])
 app.include_router(analytics_router, prefix="/api/analytics", tags=["Analytics"])
 app.include_router(skills_router, prefix="/api/skills", tags=["Marketing Skills"])
 app.include_router(orchestrator_router, prefix="/api/orchestrator", tags=["Master Orchestrator"])
+app.include_router(webhooks_router, prefix="/api/webhooks", tags=["Webhooks"])
+

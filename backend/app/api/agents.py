@@ -9,7 +9,7 @@ from typing import Optional
 import resend
 from dotenv import load_dotenv
 
-from app.services.ollama import ollama_service
+from app.services.ai_gateway import ai_gateway
 from app.core.database import get_supabase_admin
 from app.services.scraper import scrape_company_website
 
@@ -94,7 +94,7 @@ Produis un JSON avec les champs suivants :
         },
     }
 
-    result = await ollama_service.generate(
+    result = await ai_gateway.generate(
         prompt=prompt,
         system_prompt=system_prompt,
         response_format=response_format,
@@ -195,7 +195,7 @@ Produis un JSON avec :
         },
     }
 
-    result = await ollama_service.generate(
+    result = await ai_gateway.generate(
         prompt=prompt,
         system_prompt=system_prompt,
         response_format=response_format,
@@ -349,7 +349,7 @@ Retourne UNIQUEMENT un JSON :
         },
     }
 
-    result = await ollama_service.generate(prompt=prompt, system_prompt=system_prompt, response_format=response_format)
+    result = await ai_gateway.generate(prompt=prompt, system_prompt=system_prompt, response_format=response_format)
     
     generation_data = {
         "company_id": req.company_id,
@@ -397,11 +397,22 @@ async def review_and_send(req: EmailReviewRequest):
          }
          resend_response = resend.Emails.send(params)
          
-         # Log activity
+         # Log to messages table for tracking
          db = get_supabase_admin()
-         db.table("activity_logs").insert({"action": "email_sent", "entity_id": req.contact_id, "details": {"resend_id": resend_response["id"]}}).execute()
+         db.table("messages").insert({
+            "resend_id": resend_response["id"],
+            "to_email": req.target_email,
+            "subject": req.email_subject,
+            "body": req.email_body,
+            "status": "sent",
+            "sent_at": "now()"
+         }).execute()
+
+         # Deprecated Log to activity_logs
+         db.table("activity_logs").insert({"action": "email_sent", "entity_id": req.contact_id, "metadata": {"resend_id": resend_response["id"]}}).execute()
          
          return {"status": "success", "resend_id": resend_response["id"]}
+
          
     except Exception as e:
          raise HTTPException(status_code=500, detail=str(e))

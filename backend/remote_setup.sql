@@ -121,8 +121,11 @@ create table if not exists public.messages (
     status text default 'draft',
     resend_id text,
     sent_at timestamptz,
+    last_opened_at timestamptz,
+    opens_count integer default 0,
     created_at timestamptz default now()
 );
+
 alter table public.messages enable row level security;
 
 -- ── 14. Activity Logs ────────────────────────────────────────

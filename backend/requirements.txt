@@ -1,6 +1,9 @@
 fastapi
 uvicorn[standard]
-supabase
+crawl4ai
+supabase<2.0.0
+resend
+groq
 python-dotenv
 pydantic
 pydantic-settings
